@@ -12,9 +12,15 @@ namespace SocialNetwork.Infraestructure.Persistence.Contexts
         {
             base.OnModelCreating(modelBuilder);
             modelBuilder.ApplyConfiguration(new UserConfiguration());
+            modelBuilder.ApplyConfiguration(new PostsConfiguration());
+            modelBuilder.ApplyConfiguration(new CommentsConfiguration());
+            modelBuilder.ApplyConfiguration(new FriendConfiguration());
         }
 
         //DbSet
         public DbSet<Users> Users { get; set; }
+        public DbSet<Posts> Posts { get; set; }
+        public DbSet<Comments> Comments { get; set; }
+        public DbSet<Friends> Friends { get; set; }
     }
 }

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SocialNetwork.Infraestructure.Persistence.Contexts;
 
@@ -11,9 +12,11 @@ using SocialNetwork.Infraestructure.Persistence.Contexts;
 namespace SocialNetwork.Infraestructure.Persistence.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    partial class ApplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20231021202457_CreateCommentTable")]
+    partial class CreateCommentTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -40,12 +43,6 @@ namespace SocialNetwork.Infraestructure.Persistence.Migrations
                     b.Property<string>("CreatedBy")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("IdPost")
-                        .HasColumnType("int");
-
-                    b.Property<int>("IdUser")
-                        .HasColumnType("int");
-
                     b.Property<DateTime?>("LastModified")
                         .HasColumnType("datetime2");
 
@@ -54,40 +51,7 @@ namespace SocialNetwork.Infraestructure.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("IdPost");
-
-                    b.HasIndex("IdUser");
-
                     b.ToTable("Comments", (string)null);
-                });
-
-            modelBuilder.Entity("SocialNetwork.Core.Domain.Entities.Friends", b =>
-                {
-                    b.Property<int>("IdUser")
-                        .HasColumnType("int");
-
-                    b.Property<int>("IdFriend")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime?>("Created")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("CreatedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("LastModified")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("LastModifiedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("UserName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("IdUser", "IdFriend");
-
-                    b.ToTable("Friends", (string)null);
                 });
 
             modelBuilder.Entity("SocialNetwork.Core.Domain.Entities.Posts", b =>
@@ -108,9 +72,6 @@ namespace SocialNetwork.Infraestructure.Persistence.Migrations
                     b.Property<string>("CreatedBy")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("IdUser")
-                        .HasColumnType("int");
-
                     b.Property<string>("Image")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -123,8 +84,6 @@ namespace SocialNetwork.Infraestructure.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("IdUser");
-
                     b.ToTable("Posts", (string)null);
                 });
 
@@ -135,9 +94,6 @@ namespace SocialNetwork.Infraestructure.Persistence.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("ActivationKey")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("Created")
                         .HasColumnType("datetime2");
@@ -152,9 +108,6 @@ namespace SocialNetwork.Infraestructure.Persistence.Migrations
                     b.Property<string>("Image")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
 
                     b.Property<DateTime?>("LastModified")
                         .HasColumnType("datetime2");
@@ -191,61 +144,6 @@ namespace SocialNetwork.Infraestructure.Persistence.Migrations
                         .IsUnique();
 
                     b.ToTable("Users", (string)null);
-                });
-
-            modelBuilder.Entity("SocialNetwork.Core.Domain.Entities.Comments", b =>
-                {
-                    b.HasOne("SocialNetwork.Core.Domain.Entities.Posts", "Post")
-                        .WithMany("Comments")
-                        .HasForeignKey("IdPost")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.HasOne("SocialNetwork.Core.Domain.Entities.Users", "User")
-                        .WithMany("Comments")
-                        .HasForeignKey("IdUser")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.Navigation("Post");
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("SocialNetwork.Core.Domain.Entities.Friends", b =>
-                {
-                    b.HasOne("SocialNetwork.Core.Domain.Entities.Users", "Users")
-                        .WithMany("Friends")
-                        .HasForeignKey("IdUser")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Users");
-                });
-
-            modelBuilder.Entity("SocialNetwork.Core.Domain.Entities.Posts", b =>
-                {
-                    b.HasOne("SocialNetwork.Core.Domain.Entities.Users", "User")
-                        .WithMany("Posts")
-                        .HasForeignKey("IdUser")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("SocialNetwork.Core.Domain.Entities.Posts", b =>
-                {
-                    b.Navigation("Comments");
-                });
-
-            modelBuilder.Entity("SocialNetwork.Core.Domain.Entities.Users", b =>
-                {
-                    b.Navigation("Comments");
-
-                    b.Navigation("Friends");
-
-                    b.Navigation("Posts");
                 });
 #pragma warning restore 612, 618
         }
