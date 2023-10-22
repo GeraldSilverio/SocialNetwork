@@ -11,7 +11,5 @@ namespace SocialNetwork.Core.Domain.Entities
         public Posts Post { get; set; } = null!;
         public int IdPost { get; set; }
 
-
-       
     }
 }

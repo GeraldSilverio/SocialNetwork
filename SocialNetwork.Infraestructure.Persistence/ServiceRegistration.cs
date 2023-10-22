@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using SocialNetwork.Infraestructure.Persistence.Contexts;
+using SocialNetwork.Infraestructure.Persistence.Repositories;
 using SocialNewtwork.Core.Application.Interfaces.Repositories;
 
 namespace SocialNetwork.Infraestructure.Persistence
@@ -26,7 +27,8 @@ namespace SocialNetwork.Infraestructure.Persistence
 
             #region Repositories
 
-            services.AddTransient(typeof(IGenericRepositoryAsync<>),typeof(IGenericRepositoryAsync<>));
+            services.AddTransient(typeof(IGenericRepositoryAsync<>),typeof(GenericRepositoryAsync<>));
+            services.AddTransient<IUserRepository, UserRepository>();
 
             #endregion
 

@@ -8,8 +8,9 @@
 
   <ItemGroup>
     <Folder Include="Enums\" />
-    <Folder Include="ViewModels\" />
     <Folder Include="Validations\" />
+    <Folder Include="ViewModels\CommentsViewModels\" />
+    <Folder Include="ViewModels\PostsViewModels\" />
   </ItemGroup>
 
   <ItemGroup>

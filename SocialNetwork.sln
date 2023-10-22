@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.7.34031.279
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SocialNetwork", "SocialNetwork\SocialNetwork.csproj", "{FCEF00BB-0852-4253-9087-EC53584E34D9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SocialNetwork", "SocialNetwork\SocialNetwork.csproj", "{FCEF00BB-0852-4253-9087-EC53584E34D9}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Source", "Source", "{965ED495-D109-4625-8CD4-718F96702C91}"
 EndProject
@@ -13,15 +13,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infraestructure", "Infraest
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Presentation", "Presentation", "{E8A4D866-BB26-4D97-A46D-015ADBCF4FC5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SocialNetwork.Core.Domain", "SocialNetwork.Core.Domain\SocialNetwork.Core.Domain.csproj", "{4DEDF1AE-3874-44AA-A4D0-D6B1C41F053F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SocialNetwork.Core.Domain", "SocialNetwork.Core.Domain\SocialNetwork.Core.Domain.csproj", "{4DEDF1AE-3874-44AA-A4D0-D6B1C41F053F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SocialNewtwork.Core.Application", "SocialNewtwork.Core.Application\SocialNewtwork.Core.Application.csproj", "{820821EE-14F9-414D-A64C-35D1361E5AA9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SocialNewtwork.Core.Application", "SocialNewtwork.Core.Application\SocialNewtwork.Core.Application.csproj", "{820821EE-14F9-414D-A64C-35D1361E5AA9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SocialNetwork.Infraestructure.Identity", "SocialNetwork.Infraestructure.Identity\SocialNetwork.Infraestructure.Identity.csproj", "{D2980FD8-872B-4C3A-84BA-04F145F574C8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SocialNetwork.Infraestructure.Identity", "SocialNetwork.Infraestructure.Identity\SocialNetwork.Infraestructure.Identity.csproj", "{D2980FD8-872B-4C3A-84BA-04F145F574C8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SocialNetwork.Infraestructure.Persistence", "SocialNetwork.Infraestructure.Persistence\SocialNetwork.Infraestructure.Persistence.csproj", "{860A411D-8A5D-4CF3-9D93-387CB57EDCB4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SocialNetwork.Infraestructure.Persistence", "SocialNetwork.Infraestructure.Persistence\SocialNetwork.Infraestructure.Persistence.csproj", "{860A411D-8A5D-4CF3-9D93-387CB57EDCB4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SocialNetwork.Infraestructure.Shared", "SocialNetwork.Infraestructure.Shared\SocialNetwork.Infraestructure.Shared.csproj", "{CF8B0E0B-8B1F-4C29-9CB1-20F594C75B8F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SocialNetwork.Infraestructure.Shared", "SocialNetwork.Infraestructure.Shared\SocialNetwork.Infraestructure.Shared.csproj", "{CF8B0E0B-8B1F-4C29-9CB1-20F594C75B8F}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WebApp", "WebApp", "{7477D6FF-2AC0-473D-B1E5-EA6C9B189052}"
 EndProject

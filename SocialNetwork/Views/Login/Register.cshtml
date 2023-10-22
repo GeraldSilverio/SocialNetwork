@@ -1,0 +1,66 @@
+﻿@using SocialNewtwork.Core.Application.ViewModels.UsersViewModels;
+@model RegisterUserViewModel
+
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12 d-flex justify-content-center align-items-center" style="min-height: 70vh;">
+            <div class="col-6">
+                <div class="card">
+                    <div class="card-header bg-primary text-light text-center">
+                        <h4>VAMOS A CREAR TU CUENTA DE GeX</h4>
+                    </div>
+                    <div class="card-body">
+                        <form class="form-floating mb-3" method="post" asp-controller="Login" asp-action="Register">
+
+                            <div class="form-floating mb-3">
+                                <input type="text" class="form-control" asp-for="Name" placeholder="Silverio Serrata" autocomplete="off">
+                                <label for="floatingInput">Nombres</label>
+                            </div>
+
+                            <div class="form-floating mb-3">
+                                <input type="text" class="form-control" asp-for="LastName" placeholder="Silverio Serrata" autocomplete="off">
+                                <label for="floatingInput">Apellidos</label>
+                            </div>
+
+                            <div class="form-floating mb-3">
+                                <input type="email" class="form-control" asp-for="Email" placeholder="name@example.com" autocomplete="off">
+                                <label for="floatingInput">Correo Electronico</label>
+                            </div>
+
+                            <div class="form-floating mb-3">
+                                <input type="text" class="form-control" asp-for="UserName" placeholder="GeraldSilv25" autocomplete="off">
+                                <label for="floatingInput">Nombre de Usuario</label>
+                            </div>
+
+                            <div class="form-floating mb-3" >
+                                <input type="password" class="form-control" asp-for="Password" placeholder="Password" autocomplete="off">
+                                <label for="floatingPassword">Contraseña</label>
+                            </div>
+
+                            <div class="form-floating mb-3" >
+                                <input type="password" class="form-control" id="floatingPassword" placeholder="Password" autocomplete="off">
+                                <label for="floatingPassword">Confirmar Contraseña</label>
+                            </div>
+
+                            <div class="form-floating mb-3">
+                                <input type="number" class="form-control" id="floatingPassword" placeholder="829-882-8744" autocomplete="off"> 
+                                <label for="floatingPassword">Numero Telefonico</label>
+                            </div>
+
+                            <div class="mb-3">
+                                <label asp-for="File" class="form-label">Foto de Perfil:</label>
+                               
+                                    <input required asp-for="File" class="form-control" />
+                             
+                                <span asp-validation-for="File" class="text-danger"></span>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary float-end ms-2">Registrarme</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

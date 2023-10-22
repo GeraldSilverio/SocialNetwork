@@ -1,0 +1,36 @@
+﻿@using SocialNewtwork.Core.Application.ViewModels.UsersViewModels;
+
+@model LoginViewModel
+
+@{
+    ViewData["Title"] = "Save LabTest";
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12 d-flex justify-content-center align-items-center" style="min-height: 70vh;">
+            <div class="col-6">
+                <div class="card">
+                    <div class="card-header bg-primary text-light text-center">
+                        <h4>Welcome Back To GeX</h4>
+                    </div>
+                    <div class="card-body">
+                        @Html.ValidationSummary(false,"",new{@class = "text-danger"})
+                        <form method="post" asp-controller="Login" asp-action="Index">
+                            <div class="mb-3">
+                                <label asp-for="UserName" class="form-label">Nombre de Usuario: </label>
+                                <input type="text" asp-for="UserName" class="form-control" autocomplete="off" />
+                            </div>
+                            <div class="mb-3">
+                                <label asp-for="Password" class="form-label">Contraseña: </label>
+                                <input type="password" asp-for="Password" class="form-control" autocomplete="off" />
+                            </div>
+                            <button type="submit" class="btn btn-primary float-end ms-2">Iniciar Sesión</button>
+                            <a asp-controller="Login" asp-action="Register" class="btn btn-primary float-end ms-2">Registrate</a>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

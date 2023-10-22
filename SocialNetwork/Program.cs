@@ -1,10 +1,16 @@
 using SocialNetwork.Infraestructure.Persistence;
+using SocialNewtwork.Core.Application;
+using SocialNetwork.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddSession();
 builder.Services.AddPersistenceInfrastructure(builder.Configuration);
+builder.Services.AddApplication();
+builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+builder.Services.AddTransient<ValidationUserSession, ValidationUserSession>();
 
 var app = builder.Build();
 
@@ -18,6 +24,7 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
+app.UseSession();
 
 app.UseRouting();
 
@@ -25,6 +32,6 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller=Login}/{action=Index}/{id?}");
 
 app.Run();

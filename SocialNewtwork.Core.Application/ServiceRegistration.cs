@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using SocialNewtwork.Core.Application.Interfaces.Services;
+using SocialNewtwork.Core.Application.Services;
 using System.Reflection;
 
 namespace SocialNewtwork.Core.Application
@@ -12,7 +13,8 @@ namespace SocialNewtwork.Core.Application
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
             #region Services
-            services.AddTransient(typeof(IGenericService<,,>), typeof(IGenericService<,,>));
+            services.AddTransient(typeof(IGenericService<,,>), typeof(GenericService<,,>));
+            services.AddTransient<IUserService, UserServices>();
             #endregion
         }
     }
