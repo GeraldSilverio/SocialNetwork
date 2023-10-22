@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using SocialNetwork.Infraestructure.Persistence.Contexts;
+using SocialNewtwork.Core.Application.Interfaces.Repositories;
 
 namespace SocialNetwork.Infraestructure.Persistence
 {
@@ -21,6 +22,12 @@ namespace SocialNetwork.Infraestructure.Persistence
                 m => m.MigrationsAssembly(typeof(ApplicationContext).Assembly.FullName))
                 );
             }
+            #endregion
+
+            #region Repositories
+
+            services.AddTransient(typeof(IGenericRepositoryAsync<>),typeof(IGenericRepositoryAsync<>));
+
             #endregion
 
         }
