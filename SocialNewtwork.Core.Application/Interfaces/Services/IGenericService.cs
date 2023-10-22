@@ -11,7 +11,7 @@ namespace SocialNewtwork.Core.Application.Interfaces.Services
         Task<SaveViewModel> Add(SaveViewModel model);
         Task Delete(int id);
         Task<List<ViewModel>> GetAll();
-        Task <ViewModel> GetById(int id);
+        Task <SaveViewModel> GetById(int id);
         bool Any(Expression<Func<Model, bool>> predicate);
     }
 }
