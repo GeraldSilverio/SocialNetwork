@@ -1,6 +1,7 @@
 using SocialNetwork.Infraestructure.Persistence;
 using SocialNewtwork.Core.Application;
 using SocialNetwork.Middlewares;
+using SocialNetwork.Infraestructure.Shared;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,6 +10,7 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddSession();
 builder.Services.AddPersistenceInfrastructure(builder.Configuration);
 builder.Services.AddApplication();
+builder.Services.AddSharedInfrastructure(builder.Configuration);
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddTransient<ValidationUserSession, ValidationUserSession>();
 

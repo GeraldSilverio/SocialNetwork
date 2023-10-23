@@ -19,7 +19,7 @@ namespace SocialNewtwork.Core.Application.ViewModels.UsersViewModels
         [Required(ErrorMessage = "*ESTE CAMPO ES REQUERIDO*")]
         [DataType(DataType.PhoneNumber)]
         public string PhoneNumber { get; set; } = null!;
-        public string Image { get; set; } = null!;
+        public string? Image { get; set; } = null!;
 
         [Required(ErrorMessage = "*ESTE CAMPO ES REQUERIDO*")]
         [DataType(DataType.EmailAddress)]
@@ -34,8 +34,10 @@ namespace SocialNewtwork.Core.Application.ViewModels.UsersViewModels
         [Required(ErrorMessage = "*ESTE CAMPO ES REQUERIDO*")]
         public string ConfirmPassword { get; set; } = null!;
 
-        [Required(ErrorMessage = "*ESTE CAMPO ES REQUERIDO*")]
+        [Required(ErrorMessage = "ESTE CAMPO ES REQUERIDO")]
         [DataType(DataType.Upload)]
         public IFormFile? File { get; set; }
+
+        public string? ActiveKey { get; set; }
     }
 }

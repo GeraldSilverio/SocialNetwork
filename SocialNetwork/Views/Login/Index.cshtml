@@ -12,7 +12,7 @@
             <div class="col-6">
                 <div class="card">
                     <div class="card-header bg-primary text-light text-center">
-                        <h4>Welcome Back To GeX</h4>
+                        <h4>Inicia Sesión en GeX</h4>
                     </div>
                     <div class="card-body">
                         @Html.ValidationSummary(false,"",new{@class = "text-danger"})
@@ -25,10 +25,14 @@
                                 <label asp-for="Password" class="form-label">Contraseña: </label>
                                 <input type="password" asp-for="Password" class="form-control" autocomplete="off" />
                             </div>
-                            <button type="submit" class="btn btn-primary float-end ms-2">Iniciar Sesión</button>
-                            <a asp-controller="Login" asp-action="Register" class="btn btn-primary float-end ms-2">Registrate</a>
+                            <div>
+                                <button type="submit" class="btn btn-primary float-end ms-2">Iniciar Sesión</button>
+                            </div>
+                          
+                            <span class="text-dark">Aun no tienes cuenta? <a class="text-primary" asp-controller="Login" asp-action="Register">Registrate</a> </span>
+
                         </form>
-                    </div>
+                    </div>  
                 </div>
             </div>
         </div>

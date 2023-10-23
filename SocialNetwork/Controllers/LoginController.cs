@@ -27,7 +27,7 @@ namespace SocialNetwork.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult>Index(LoginViewModel model)
+        public async Task<IActionResult> Index(LoginViewModel model)
         {
             try
             {
@@ -37,7 +37,7 @@ namespace SocialNetwork.Controllers
                 }
                 var user = await _userService.LoginAsync(model);
 
-                if(user != null)
+                if (user != null)
                 {
                     HttpContext.Session.Set<UserViewModel>("user", user);
                     return RedirectToRoute(new { controller = "Home", action = "Index" });

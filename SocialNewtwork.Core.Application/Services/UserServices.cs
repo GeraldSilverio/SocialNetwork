@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using SocialNetwork.Core.Domain.Entities;
+using SocialNewtwork.Core.Application.Dtos.Email;
 using SocialNewtwork.Core.Application.Interfaces.Repositories;
 using SocialNewtwork.Core.Application.Interfaces.Services;
 using SocialNewtwork.Core.Application.ViewModels.UsersViewModels;
@@ -10,11 +11,13 @@ namespace SocialNewtwork.Core.Application.Services
     public class UserServices : GenericService<RegisterUserViewModel, UserViewModel, Users>, IUserService
     {
         private readonly IUserRepository _userRepository;
-        public UserServices(IMapper mapper, IUserRepository userRepository) : base(mapper, userRepository)
+        private readonly IEmailService _emailService;
+        public UserServices(IMapper mapper, IUserRepository userRepository, IEmailService emailService) : base(mapper, userRepository)
         {
             _userRepository = userRepository;
+            _emailService = emailService;
         }
-
+        //Metodo Login.
         public async Task<UserViewModel> LoginAsync(LoginViewModel loginView)
         {
             Users user = await _userRepository.LoginAsync(loginView);
@@ -35,6 +38,25 @@ namespace SocialNewtwork.Core.Application.Services
             return userVw;
         }
 
+        //Sobrescribiendo el metodo Add,para enviar el mensaje de autenticacion del usuario.
+        public override  async Task<RegisterUserViewModel> Add(RegisterUserViewModel model)
+        {
+           var userVm = await base.Add(model);
+
+            await _emailService.SendAsync(new EmailRequest()
+            {
+                To = userVm.Email,
+                Subject = "Welcome to Gex!",
+                Body = $"<h1 style=" + "color: blue;" + ">Welcome to Maycol Social Media App</h1>" +
+                   $"<p>Your username is {userVm.UserName}</p> \n" +
+                   $"Link de activacion: " +
+                   $"https://localhost:9999/User/ActivateUser?key={userVm.ActiveKey}"
+
+            });
+            return userVm;
+        }
+
+        //Metodo subir archivos.
         public string UplpadFile(IFormFile file, int id, bool isEditMode = false, string imagePath = "")
         {
             if (isEditMode)
