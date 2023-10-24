@@ -5,7 +5,7 @@ namespace SocialNewtwork.Core.Application.ViewModels.UsersViewModels
 {
     public class RegisterUserViewModel
     {
-        public int Id { get; set; }
+        public string? Id { get; set; }
         [Required(ErrorMessage ="*ESTE CAMPO ES REQUERIDO*")]
         [DataType(DataType.Text)]
         public string Name { get; set; } = null!;
@@ -37,7 +37,7 @@ namespace SocialNewtwork.Core.Application.ViewModels.UsersViewModels
         [Required(ErrorMessage = "ESTE CAMPO ES REQUERIDO")]
         [DataType(DataType.Upload)]
         public IFormFile? File { get; set; }
-
-        public string? ActiveKey { get; set; }
+        public bool HasError { get; set; }
+        public string? Error { get; set; }
     }
 }

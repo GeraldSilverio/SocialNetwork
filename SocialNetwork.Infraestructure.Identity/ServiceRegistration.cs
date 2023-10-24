@@ -4,6 +4,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using SocialNetwork.Infraestructure.Identity.Contexts;
 using SocialNetwork.Infraestructure.Identity.Entities;
+using SocialNetwork.Infraestructure.Identity.Services;
+using SocialNewtwork.Core.Application.Interfaces.Services;
 
 namespace SocialNetwork.Infraestructure.Identity
 {
@@ -32,6 +34,10 @@ namespace SocialNetwork.Infraestructure.Identity
 
             //Procesos de autenticacion.
             services.AddAuthentication();
+            #endregion
+
+            #region Services
+            services.AddTransient<IAccountService, AccountService>();
             #endregion
 
         }

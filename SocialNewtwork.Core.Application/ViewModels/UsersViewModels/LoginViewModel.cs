@@ -2,7 +2,9 @@
 {
     public class LoginViewModel
     {
-        public string UserName { get; set; } = null!;
+        public string Email { get; set; } = null!;
         public string Password { get; set; } = null!;
+        public bool HasError {  get; set; }
+        public string? Error { get; set; }
     }
 }

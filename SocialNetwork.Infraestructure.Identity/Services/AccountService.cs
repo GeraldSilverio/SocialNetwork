@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.WebUtilities;
-using SocialNetwork.Core.Domain.Entities;
 using SocialNetwork.Infraestructure.Identity.Entities;
 using SocialNewtwork.Core.Application.Dtos.Account;
 using SocialNewtwork.Core.Application.Dtos.Email;
@@ -9,7 +8,7 @@ using System.Text;
 
 namespace SocialNetwork.Infraestructure.Identity.Services
 {
-    public class AccountService
+    public class AccountService : IAccountService
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
@@ -85,7 +84,7 @@ namespace SocialNetwork.Infraestructure.Identity.Services
 
             var result = await _userManager.ConfirmEmailAsync(user, token);
 
-            if(result.Succeeded)
+            if (result.Succeeded)
             {
                 return $"$Account confirmed for {user.Email} You can use GeX";
             }
@@ -156,6 +155,69 @@ namespace SocialNetwork.Infraestructure.Identity.Services
             return response;
         }
 
+        public async Task<ForgotPasswordResponse> ForgotPasswordAsync(ForgotPasswordRequest request, string origin)
+        {
+            ForgotPasswordResponse response = new();
+            response.HasError = false;
+
+            var account = await _userManager.FindByEmailAsync(request.Email);
+
+            if (account == null)
+            {
+                response.HasError = true;
+                response.Error = $"Don't exist account with the Email {account.Email}";
+                return response;
+            }
+
+            var verificationUri = await SendForgotPasswordUri(account, origin);
+            await _emailService.SendAsync(new EmailRequest()
+            {
+                To = account.Email,
+                Body = $"Please change your password. Click Here => {verificationUri}",
+                Subject = "Reset Password"
+
+            });
+
+            return response;
+        }
+
+        public async Task<ResetPasswordResponse> ResetPasswordAsync(ResetPasswordRequest request)
+        {
+            ResetPasswordResponse response = new();
+            response.HasError = false;
+
+            var account = await _userManager.FindByEmailAsync(request.Email);
+
+            if (account == null)
+            {
+                response.HasError = true;
+                response.Error = $"No accounts registered with {request.Email}";
+                return response;
+            }
+            request.Token = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(request.Token));
+
+            var result = await _userManager.ResetPasswordAsync(account, request.Token, request.Password);
+
+            if (!result.Succeeded)
+            {
+                response.HasError = true;
+                response.Error = $"$An error ocurred while reset password {request.Email}";
+                return response;
+            }
+
+            return response;
+        }
+
+
+
+
+
+
+
+
+
+
+
 
 
         //Envio de correos de verificacion.
@@ -172,6 +234,21 @@ namespace SocialNetwork.Infraestructure.Identity.Services
             var verificationUrl = QueryHelpers.AddQueryString(Uri.ToString(), "userId", user.Id);
             //Token de verificacion
             verificationUrl = QueryHelpers.AddQueryString(Uri.ToString(), "token", code);
+            return ";";
+        }
+
+        private async Task<string> SendForgotPasswordUri(ApplicationUser user, string origin)
+        {
+            //Codificando el token de autenticacion
+            var code = await _userManager.GeneratePasswordResetTokenAsync(user);
+            code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
+            //Creando la ruta.
+            var route = "User/ResetPassword";
+            //Contatenando el LocalHost mas la ruta del controller.
+            var Uri = new Uri(string.Concat($"{origin}/", route));
+            //Creando el mensaje de verificacion.
+            //Token de verificacion
+            var verificationUrl = QueryHelpers.AddQueryString(Uri.ToString(), "token", code);
             return ";";
         }
 

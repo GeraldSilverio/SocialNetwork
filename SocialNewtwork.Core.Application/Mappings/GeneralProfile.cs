@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using SocialNetwork.Core.Domain.Entities;
+using SocialNewtwork.Core.Application.Dtos.Account;
 using SocialNewtwork.Core.Application.ViewModels.UsersViewModels;
 
 namespace SocialNewtwork.Core.Application.Mappings
@@ -8,14 +8,27 @@ namespace SocialNewtwork.Core.Application.Mappings
     {
         public GeneralProfile()
         {
-            CreateMap<Users, RegisterUserViewModel>()
-                .ForMember(x => x.ConfirmPassword, opt => opt.Ignore())
-                .ForMember(x => x.File, opt => opt.Ignore())
-                .ReverseMap()
-                .ForMember(x => x.LastModified, opt => opt.Ignore())
-                .ForMember(x => x.LastModifiedBy, opt => opt.Ignore())
-                .ForMember(x => x.Created, opt => opt.Ignore())
-                .ForMember(x => x.CreatedBy, opt => opt.Ignore());
+            CreateMap<AuthenticationRequest, LoginViewModel>()
+                .ForMember(x=> x.Error, opt => opt.Ignore())
+                .ForMember(x=> x.HasError, opt => opt.Ignore())
+                .ReverseMap(); 
+            
+            CreateMap<RegisterRequest, RegisterUserViewModel>()
+                .ForMember(x=> x.Error, opt => opt.Ignore())
+                .ForMember(x=> x.HasError, opt => opt.Ignore())
+                .ForMember(x=> x.File, opt => opt.Ignore())
+                .ReverseMap();
+            
+            CreateMap<ForgotPasswordRequest, ForgotPasswordViewModel>()
+                .ForMember(x=> x.Error, opt => opt.Ignore())
+                .ForMember(x=> x.HasError, opt => opt.Ignore())
+                .ReverseMap();
+
+            CreateMap<ResetPasswordRequest, ResetPasswordViewModel>()
+               .ForMember(x => x.HasError, opt => opt.Ignore())
+               .ForMember(x => x.Error, opt => opt.Ignore())
+               .ReverseMap();
+
         }
 
     }
