@@ -11,8 +11,7 @@ namespace SocialNetwork.Core.Domain.Entities
         public string Image { get; set; } = null!;
         public string Email { get; set; } = null!;
         public string Password { get; set; } = null!;
-        public bool IsActive { get; set; }
-        public string? ActivationKey { get; set; }
+       
 
         //Navegation Properties.
         public ICollection<Posts> Posts { get; set; }
