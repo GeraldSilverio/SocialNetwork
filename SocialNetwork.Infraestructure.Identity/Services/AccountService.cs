@@ -21,6 +21,7 @@ namespace SocialNetwork.Infraestructure.Identity.Services
             _emailService = emailService;
         }
 
+        #region RegisterAndSingIn
         public async Task<AuthenticationReponse> AuthenticationAsync(AuthenticationRequest request)
         {
             AuthenticationReponse response = new();
@@ -64,39 +65,11 @@ namespace SocialNetwork.Infraestructure.Identity.Services
             return response;
         }
 
-        //Logout.
         public async Task SingOutAsync()
         {
             await _signInManager.SignOutAsync();
         }
 
-        //Meotodo para confirmar el correo del usuario.
-        public async Task<string> ConfirmAccountAsync(string userId, string token)
-        {
-            var user = await _userManager.FindByIdAsync(userId);
-
-            if (user == null)
-            {
-                return "No accounts registered with this user";
-            }
-            token = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(token));
-
-            var result = await _userManager.ConfirmEmailAsync(user, token);
-
-            if (result.Succeeded)
-            {
-                return $"$Account confirmed for {user.Email} You can use GeX";
-            }
-            else
-            {
-                return $"$An error ocurred while confirming {user.Email}";
-            }
-        }
-
-
-
-
-        //Metodo registro
         public async Task<RegisterResponse> RegisterUserAsync(RegisterRequest request, string origin)
         {
             RegisterResponse response = new();
@@ -154,6 +127,10 @@ namespace SocialNetwork.Infraestructure.Identity.Services
             return response;
         }
 
+        #endregion
+
+
+        #region PasswordMethods
         public async Task<ForgotPasswordResponse> ForgotPasswordAsync(ForgotPasswordRequest request, string origin)
         {
             ForgotPasswordResponse response = new();
@@ -164,7 +141,7 @@ namespace SocialNetwork.Infraestructure.Identity.Services
             if (account == null)
             {
                 response.HasError = true;
-                response.Error = $"Don't exist account with the Email {account.Email}";
+                response.Error = $"Don't exist account with the Email {request.Email}";
                 return response;
             }
 
@@ -207,49 +184,71 @@ namespace SocialNetwork.Infraestructure.Identity.Services
             return response;
         }
 
-
-
-
-
-
-
-
-
-
-
-
-
-        //Envio de correos de verificacion.
-        private async Task<string> SendVerificationEmailUrl(ApplicationUser user, string origin)
-        {
-            //Codificando el token de autenticacion
-            var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-            code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
-            //Creando la ruta.
-            var route = "User/ConfirmEmail";
-            //Contatenando el LocalHost mas la ruta del controller.
-            var Uri = new Uri(string.Concat($"{origin}/", route));
-            //Creando el mensaje de verificacion.
-            var verificationUrl = QueryHelpers.AddQueryString(Uri.ToString(), "userId", user.Id);
-            //Token de verificacion
-            verificationUrl = QueryHelpers.AddQueryString(Uri.ToString(), "token", code);
-            return verificationUrl;
-        }
-
         private async Task<string> SendForgotPasswordUri(ApplicationUser user, string origin)
         {
             //Codificando el token de autenticacion
             var code = await _userManager.GeneratePasswordResetTokenAsync(user);
             code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
             //Creando la ruta.
-            var route = "User/ResetPassword";
+            var route = "Login/ResetPassword";
             //Contatenando el LocalHost mas la ruta del controller.
             var Uri = new Uri(string.Concat($"{origin}/", route));
             //Creando el mensaje de verificacion.
             //Token de verificacion
             var verificationUrl = QueryHelpers.AddQueryString(Uri.ToString(), "token", code);
-            return ";";
+            return verificationUrl;
         }
+
+        #endregion
+
+
+        #region EmailMethods
+        private async Task<string> SendVerificationEmailUrl(ApplicationUser user, string origin)
+        {
+         
+            var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+            code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
+            var route = "Login/ConfirmEmail";
+            var Uri = new Uri(string.Concat($"{origin}/", route));
+            var verificationUri = QueryHelpers.AddQueryString(Uri.ToString(), "userId", user.Id);
+            verificationUri = QueryHelpers.AddQueryString(verificationUri, "token", code);
+            return verificationUri;
+        }
+
+        public async Task<string> ConfirmAccountAsync(string userId, string token)
+        {
+            var user = await _userManager.FindByIdAsync(userId);
+
+            if (user == null)
+            {
+                return "No accounts registered with this user";
+            }
+            token = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(token));
+
+            var result = await _userManager.ConfirmEmailAsync(user, token);
+
+            if (result.Succeeded)
+            {
+                return $" Account confirmed.You can use GeX";
+            }
+            else
+            {
+                return $"$An error ocurred while confirming {user.Email}";
+            }
+        }
+
+        #endregion
+
+
+
+
+
+
+
+
+
+
+
 
     }
 }

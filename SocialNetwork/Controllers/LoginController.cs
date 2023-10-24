@@ -3,6 +3,7 @@ using SocialNewtwork.Core.Application.Interfaces.Services;
 using SocialNewtwork.Core.Application.ViewModels.UsersViewModels;
 using SocialNewtwork.Core.Application.Helpers;
 using SocialNewtwork.Core.Application.Dtos.Account;
+using Microsoft.Win32;
 
 namespace SocialNetwork.Controllers
 {
@@ -74,19 +75,73 @@ namespace SocialNetwork.Controllers
                     return View(register);
                 }
                 var origin = Request.Headers["origin"];
-                RegisterResponse response = await _userService.RegisterAsync(register,origin);
+                RegisterResponse response = await _userService.RegisterAsync(register, origin);
                 if (response.HasError)
                 {
                     register.Error = response.Error;
                     register.HasError = response.HasError;
                     return View(register);
                 }
+                //FALTA AGREGARLE LA IMAGEN.
                 return RedirectToRoute(new { controller = "Login", action = "Index" });
             }
             catch (Exception ex)
             {
                 return View(ex.Message);
             }
+        }
+
+        public async Task<IActionResult> ConfirmEmail(string userId, string token)
+        {
+            string response = await _userService.ConfirmEmailAsync(userId, token);
+            return View("ConfirmEmail", response);
+        }
+
+        public IActionResult ForgotPassword()
+        {
+            return View(new ForgotPasswordViewModel());
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ForgotPassword(ForgotPasswordViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+            var origin = Request.Headers["origin"];
+            var response = await _userService.ForgotPasswordAsync(model, origin);
+
+            if (response.HasError)
+            {
+                model.HasError = response.HasError;
+                model.Error = response.Error;
+                return View(model);
+            }
+
+            return RedirectToRoute(new { controller = "", action = "" });
+        }
+
+        public IActionResult ResetPassword(ResetPasswordViewModel model)
+        {
+            return View(model);
+        }
+        [HttpPost]
+        public async Task<IActionResult> ResetPasswordPost(ResetPasswordViewModel model)
+        {
+            if(!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            var response = await _userService.ResetPasswordAsync(model);
+            if(response.HasError)
+            {
+                model.HasError = response.HasError;
+                model.Error = response.Error;
+                return View(model);
+            }
+            return RedirectToRoute(new { controller = "", action = "" });
         }
     }
 }
