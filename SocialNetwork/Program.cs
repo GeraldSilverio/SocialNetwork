@@ -2,6 +2,7 @@ using SocialNetwork.Infraestructure.Persistence;
 using SocialNewtwork.Core.Application;
 using SocialNetwork.Middlewares;
 using SocialNetwork.Infraestructure.Shared;
+using SocialNetwork.Infraestructure.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,12 +10,14 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddSession();
 builder.Services.AddPersistenceInfrastructure(builder.Configuration);
+builder.Services.AddIdentityInfrastructure(builder.Configuration);
 builder.Services.AddApplication();
 builder.Services.AddSharedInfrastructure(builder.Configuration);
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddTransient<ValidationUserSession, ValidationUserSession>();
 
 var app = builder.Build();
+
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
@@ -30,6 +33,8 @@ app.UseSession();
 
 app.UseRouting();
 
+//PRIMERO SIEMPRE Authentication por encima de Authorization
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(
