@@ -8,7 +8,6 @@ namespace SocialNewtwork.Core.Application.Interfaces.Services
     {
         Task<AuthenticationReponse> LoginAsync(LoginViewModel request);
         Task SignOutAsync();
-
         Task<RegisterResponse> RegisterAsync(RegisterUserViewModel model, string origin);
         Task<string> ConfirmEmailAsync(string userdId, string token);
         Task<ForgotPasswordResponse> ForgotPasswordAsync(ForgotPasswordViewModel model, string origin);

@@ -56,7 +56,6 @@ namespace SocialNetwork.Infraestructure.Identity.Services
             response.Id = user.Id;
             response.UserName = user.UserName;
             response.Email = user.Email;
-            response.Password = user.Password;
             response.Image = user.Image;
             response.LastName = user.LastName;
             response.Name = user.Name;
@@ -234,7 +233,7 @@ namespace SocialNetwork.Infraestructure.Identity.Services
             var verificationUrl = QueryHelpers.AddQueryString(Uri.ToString(), "userId", user.Id);
             //Token de verificacion
             verificationUrl = QueryHelpers.AddQueryString(Uri.ToString(), "token", code);
-            return ";";
+            return verificationUrl;
         }
 
         private async Task<string> SendForgotPasswordUri(ApplicationUser user, string origin)

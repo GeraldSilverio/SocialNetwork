@@ -28,18 +28,17 @@ namespace SocialNetwork.Infraestructure.Persistence.Repositories
             return entity;
         }
 
-        public async Task<Users> LoginAsync(LoginViewModel loginView)
-        {
-            string passwordEncrypy = PasswordEncryption.ComputeSha256Hash(loginView.Password);
-            var users = await GetAllAsync();
-            Users user = users.FirstOrDefault(user => user.UserName == loginView.UserName && user.Password == passwordEncrypy);
-            return user;
-        }
+
 
         public bool ValidateEmail(string email)
         {
             var isCreated = _dbContext.Users.Any(x => x.Email == email);
             return isCreated;
+        }
+
+        public Task<Users> LoginAsync(LoginViewModel loginView)
+        {
+            throw new NotImplementedException();
         }
     }
 }

@@ -16,10 +16,17 @@
                     </div>
                     <div class="card-body">
                         @Html.ValidationSummary(false,"",new{@class = "text-danger"})
+                        @if (Model.HasError)
+                        {
+                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                <p>@Model.Error</p>
+                                <button type="button" class=" btn btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                        }
                         <form method="post" asp-controller="Login" asp-action="Index">
                             <div class="mb-3">
-                                <label asp-for="UserName" class="form-label">Nombre de Usuario: </label>
-                                <input type="text" asp-for="UserName" class="form-control" autocomplete="off" />
+                                <label asp-for="Email" class="form-label">Correo del Usuario: </label>
+                                <input type="text" asp-for="Email" class="form-control" autocomplete="off" />
                             </div>
                             <div class="mb-3">
                                 <label asp-for="Password" class="form-label">Contraseña: </label>
@@ -28,11 +35,11 @@
                             <div>
                                 <button type="submit" class="btn btn-primary float-end ms-2">Iniciar Sesión</button>
                             </div>
-                          
+
                             <span class="text-dark">Aun no tienes cuenta? <a class="text-primary" asp-controller="Login" asp-action="Register">Registrate</a> </span>
 
                         </form>
-                    </div>  
+                    </div>
                 </div>
             </div>
         </div>

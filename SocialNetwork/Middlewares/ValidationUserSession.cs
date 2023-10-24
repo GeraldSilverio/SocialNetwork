@@ -14,15 +14,15 @@ namespace SocialNetwork.Middlewares
             _contextAccessor = contextAccessor;
         }
 
-        public bool HasUser()
-        {
-            UserViewModel userViewModel = _contextAccessor.HttpContext.Session.Get<UserViewModel>("User");
+        //public bool HasUser()
+        //{
+            //UserViewModel userViewModel = _contextAccessor.HttpContext.Session.Get<UserViewModel>("User");
 
-            if(userViewModel == null)
+           /* if(userViewModel == null)
             {
                 return false;
             }
-            return true;
-        }
+            return true;*/
+        //}
     }
 }

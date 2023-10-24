@@ -9,6 +9,13 @@
                     <div class="card-header bg-primary text-light text-center">
                         <h4>VAMOS A CREAR TU CUENTA DE GeX</h4>
                     </div>
+                    @if (Model.HasError)
+                    {
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            <p>@Model.Error</p>
+                            <button type="button" class=" btn btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    }
                     <div class="card-body">
                         <form class="form-floating mb-3" method="post" asp-controller="Login" asp-action="Register" enctype="multipart/form-data">
 
