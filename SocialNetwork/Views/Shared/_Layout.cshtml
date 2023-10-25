@@ -1,4 +1,17 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Http;
+@using SocialNewtwork.Core.Application.Dtos.Account;
+@using SocialNewtwork.Core.Application.Helpers;
+@using SocialNewtwork.Core.Application.ViewModels.UsersViewModels;
+
+@inject IHttpContextAccessor httpContextAccessor
+@{
+    var User = httpContextAccessor.HttpContext.Session.Get<AuthenticationReponse>("user");
+
+}
+
+<!DOCTYPE html>
+
+
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -19,11 +32,18 @@
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
+
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
+
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                        </li>
+
+
+                        <li class="nav-item align-content-end">
+                            <a class="nav-link text-white fw-bold" asp-area="" asp-controller="Login" asp-action="LogOut">Cerrar session</a>
                         </li>
                     </ul>
                 </div>

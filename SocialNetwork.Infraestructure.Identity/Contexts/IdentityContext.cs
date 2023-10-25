@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using SocialNetwork.Infraestructure.Identity.Entities;
+using System.Reflection.Emit;
 
 namespace SocialNetwork.Infraestructure.Identity.Contexts
 {
@@ -16,13 +17,22 @@ namespace SocialNetwork.Infraestructure.Identity.Contexts
 
             builder.Entity<ApplicationUser>(entity =>
             {
-                entity.ToTable("Users");
+                entity.ToTable(name: "Users");
             });
 
+            builder.Entity<IdentityRole>(entity =>
+            {
+                entity.ToTable(name: "Roles");
+            });
+                
+            builder.Entity<IdentityUserRole<string>>(entity =>
+            {
+                entity.ToTable(name: "UserRoles");
+            });
 
             builder.Entity<IdentityUserLogin<string>>(entity =>
             {
-                entity.ToTable("UsersLogin");
+                entity.ToTable(name: "UserLogins");
             });
         }
     }

@@ -3,7 +3,6 @@ using SocialNewtwork.Core.Application.Interfaces.Services;
 using SocialNewtwork.Core.Application.ViewModels.UsersViewModels;
 using SocialNewtwork.Core.Application.Helpers;
 using SocialNewtwork.Core.Application.Dtos.Account;
-using Microsoft.Win32;
 
 namespace SocialNetwork.Controllers
 {
@@ -15,7 +14,7 @@ namespace SocialNetwork.Controllers
         {
             _userService = userService;
         }
-
+        
         public IActionResult Index()
         {
 
@@ -82,6 +81,8 @@ namespace SocialNetwork.Controllers
                     register.HasError = response.HasError;
                     return View(register);
                 }
+
+                
                 //FALTA AGREGARLE LA IMAGEN.
                 return RedirectToRoute(new { controller = "Login", action = "Index" });
             }

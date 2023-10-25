@@ -28,11 +28,17 @@ namespace SocialNetwork.Infraestructure.Identity
             #endregion
 
             #region Identity
-            //Agregando Identity
+           
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<IdentityContext>().AddDefaultTokenProviders();
 
-            //Procesos de autenticacion.
+            services.ConfigureApplicationCookie(options =>
+            {
+                options.LoginPath = "/Login";
+                options.AccessDeniedPath = "/Login/Index";
+            });
+
+            
             services.AddAuthentication();
             #endregion
 

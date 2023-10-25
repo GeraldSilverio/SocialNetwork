@@ -53,77 +53,6 @@ namespace SocialNewtwork.Core.Application.Services
             return await _accountService.ResetPasswordAsync(forgotRequest);
         }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         //Metodo subir archivos.
         public string UplpadFile(IFormFile file, int id, bool isEditMode = false, string imagePath = "")
         {
@@ -167,6 +96,12 @@ namespace SocialNewtwork.Core.Application.Services
                 }
             }
             return $"{basePath}/{fileName}";
+        }
+
+        public async Task<RegisterResponse> UpdateAsync(RegisterUserViewModel model)
+        {
+            var request = _mapper.Map<RegisterRequest>(model);
+            return await _accountService.UpdateAsync(request);
         }
     }
 }

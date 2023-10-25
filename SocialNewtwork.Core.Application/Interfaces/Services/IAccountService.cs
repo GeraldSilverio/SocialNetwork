@@ -1,4 +1,5 @@
 ﻿using SocialNewtwork.Core.Application.Dtos.Account;
+using SocialNewtwork.Core.Application.ViewModels.UsersViewModels;
 
 namespace SocialNewtwork.Core.Application.Interfaces.Services
 {
@@ -10,5 +11,7 @@ namespace SocialNewtwork.Core.Application.Interfaces.Services
         Task<RegisterResponse> RegisterUserAsync(RegisterRequest request, string origin);
         Task<ResetPasswordResponse> ResetPasswordAsync(ResetPasswordRequest request);
         Task SingOutAsync();
+        Task<RegisterResponse> UpdateAsync(RegisterRequest request);
+
     }
 }

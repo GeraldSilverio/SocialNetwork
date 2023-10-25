@@ -1,7 +1,5 @@
 ﻿using SocialNewtwork.Core.Application.Helpers;
-using SocialNewtwork.Core.Application.ViewModels.UsersViewModels;
-using Microsoft.AspNetCore.Http;
-
+using SocialNewtwork.Core.Application.Dtos.Account;
 
 namespace SocialNetwork.Middlewares
 {
@@ -14,15 +12,15 @@ namespace SocialNetwork.Middlewares
             _contextAccessor = contextAccessor;
         }
 
-        //public bool HasUser()
-        //{
-            //UserViewModel userViewModel = _contextAccessor.HttpContext.Session.Get<UserViewModel>("User");
+        public bool HasUser()
+        {
+            AuthenticationReponse userViewModel = _contextAccessor.HttpContext.Session.Get<AuthenticationReponse>("User");
 
-           /* if(userViewModel == null)
+            if(userViewModel == null)
             {
                 return false;
             }
-            return true;*/
-        //}
+            return true;
+        }
     }
 }
