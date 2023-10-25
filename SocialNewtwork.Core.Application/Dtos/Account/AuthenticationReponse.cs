@@ -9,8 +9,6 @@
         public string Password { get; set; } = null!;
         public string Image { get; set; } = null!;
         public string Email { get; set; } = null!;
-
-        public List<string> Roles { get; set; }
         public bool IsVerified { get; set; } 
         public bool HasError { get; set; } 
         public string Error { get; set; } = null!;

@@ -14,7 +14,7 @@ namespace SocialNetwork.Controllers
         {
             _userService = userService;
         }
-        
+
         public IActionResult Index()
         {
 
@@ -74,6 +74,7 @@ namespace SocialNetwork.Controllers
                     return View(register);
                 }
                 var origin = Request.Headers["origin"];
+                register.Image = _userService.UplpadFile(register.File,register.UserName);
                 RegisterResponse response = await _userService.RegisterAsync(register, origin);
                 if (response.HasError)
                 {
@@ -81,9 +82,6 @@ namespace SocialNetwork.Controllers
                     register.HasError = response.HasError;
                     return View(register);
                 }
-
-                
-                //FALTA AGREGARLE LA IMAGEN.
                 return RedirectToRoute(new { controller = "Login", action = "Index" });
             }
             catch (Exception ex)
@@ -130,13 +128,13 @@ namespace SocialNetwork.Controllers
         [HttpPost]
         public async Task<IActionResult> ResetPasswordPost(ResetPasswordViewModel model)
         {
-            if(!ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 return View(model);
             }
 
             var response = await _userService.ResetPasswordAsync(model);
-            if(response.HasError)
+            if (response.HasError)
             {
                 model.HasError = response.HasError;
                 model.Error = response.Error;

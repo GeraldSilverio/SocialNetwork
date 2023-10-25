@@ -8,8 +8,7 @@ namespace SocialNetwork.Core.Domain.Entities
         public string Content { get; set; } = null!;
 
         //Navegation Properties
-        public Users User { get; set; } = null!;
-        public int IdUser {  get; set; }
+        public string IdUser { get; set; } = null!;
         public ICollection<Comments> Comments { get; set; }
 
     }

@@ -38,7 +38,7 @@ namespace SocialNetwork.Infraestructure.Identity
                 options.AccessDeniedPath = "/Login/Index";
             });
 
-            
+
             services.AddAuthentication();
             #endregion
 

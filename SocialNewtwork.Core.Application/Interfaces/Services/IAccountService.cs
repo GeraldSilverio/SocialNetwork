@@ -11,7 +11,7 @@ namespace SocialNewtwork.Core.Application.Interfaces.Services
         Task<RegisterResponse> RegisterUserAsync(RegisterRequest request, string origin);
         Task<ResetPasswordResponse> ResetPasswordAsync(ResetPasswordRequest request);
         Task SingOutAsync();
-        Task<RegisterResponse> UpdateAsync(RegisterRequest request);
+        Task<RegisterRequest> GetByUsername(string username);
 
     }
 }

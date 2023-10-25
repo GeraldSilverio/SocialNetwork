@@ -1,10 +1,8 @@
-﻿using Microsoft.AspNetCore.Http;
-using System.ComponentModel.DataAnnotations;
-
-namespace SocialNewtwork.Core.Application.Dtos.Account
+﻿namespace SocialNewtwork.Core.Application.Dtos.Account
 {
     public class RegisterRequest
     {
+        public string? Id { get; set; }
         public string Name { get; set; } = null!;
         public string LastName { get; set; } = null!;
         public string UserName { get; set; } = null!;

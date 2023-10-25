@@ -10,7 +10,7 @@ namespace SocialNewtwork.Core.Application.Services
     {
         private readonly IAccountService _accountService;
         private readonly IMapper _mapper;
-      
+
         public UserServices(IMapper mapper, IAccountService accountService)
         {
 
@@ -30,40 +30,41 @@ namespace SocialNewtwork.Core.Application.Services
         {
             await _accountService.SingOutAsync();
         }
-        public async Task<RegisterResponse> RegisterAsync(RegisterUserViewModel model,string origin)
+        public async Task<RegisterResponse> RegisterAsync(RegisterUserViewModel model, string origin)
         {
-           RegisterRequest registerRequest = _mapper.Map<RegisterRequest>(model);
+            RegisterRequest registerRequest = _mapper.Map<RegisterRequest>(model);
             return await _accountService.RegisterUserAsync(registerRequest, origin);
         }
-         
-        public async  Task<string> ConfirmEmailAsync(string userdId, string token)
+
+        public async Task<string> ConfirmEmailAsync(string userdId, string token)
         {
             return await _accountService.ConfirmAccountAsync(userdId, token);
-        } 
-        
-        public async  Task<ForgotPasswordResponse> ForgotPasswordAsync(ForgotPasswordViewModel model, string origin)
+        }
+
+        public async Task<ForgotPasswordResponse> ForgotPasswordAsync(ForgotPasswordViewModel model, string origin)
         {
             ForgotPasswordRequest forgotRequest = _mapper.Map<ForgotPasswordRequest>(model);
             return await _accountService.ForgotPasswordAsync(forgotRequest, origin);
-        } 
-        
-        public async  Task<ResetPasswordResponse> ResetPasswordAsync(ResetPasswordViewModel model)
+        }
+
+        public async Task<ResetPasswordResponse> ResetPasswordAsync(ResetPasswordViewModel model)
         {
             ResetPasswordRequest forgotRequest = _mapper.Map<ResetPasswordRequest>(model);
             return await _accountService.ResetPasswordAsync(forgotRequest);
         }
 
-        //Metodo subir archivos.
-        public string UplpadFile(IFormFile file, int id, bool isEditMode = false, string imagePath = "")
+        public async Task<RegisterUserViewModel> GetByUsername(string username)
         {
-            if (isEditMode)
-            {
-                if (file == null)
-                {
-                    return imagePath;
-                }
-            }
-            string basePath = $"/Images/Users/{id}";
+            var request = await _accountService.GetByUsername(username);
+            var user = _mapper.Map<RegisterUserViewModel>(request);
+            return user;
+        }
+
+        //Metodo subir archivos.
+        public string UplpadFile(IFormFile file, string userName)
+        {
+
+            string basePath = $"/Images/Users/{userName}";
             string path = Path.Combine(Directory.GetCurrentDirectory(), $"wwwroot{basePath}");
 
             //create folder if not exist
@@ -83,25 +84,7 @@ namespace SocialNewtwork.Core.Application.Services
             {
                 file.CopyTo(stream);
             }
-
-            if (isEditMode)
-            {
-                string[] oldImagePart = imagePath.Split("/");
-                string oldImagePath = oldImagePart[^1];
-                string completeImageOldPath = Path.Combine(path, oldImagePath);
-
-                if (File.Exists(completeImageOldPath))
-                {
-                    File.Delete(completeImageOldPath);
-                }
-            }
             return $"{basePath}/{fileName}";
-        }
-
-        public async Task<RegisterResponse> UpdateAsync(RegisterUserViewModel model)
-        {
-            var request = _mapper.Map<RegisterRequest>(model);
-            return await _accountService.UpdateAsync(request);
         }
     }
 }

@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using SocialNetwork.Infraestructure.Identity.Entities;
-using System.Reflection.Emit;
 
 namespace SocialNetwork.Infraestructure.Identity.Contexts
 {

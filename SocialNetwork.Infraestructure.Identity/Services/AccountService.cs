@@ -1,10 +1,8 @@
-﻿using Azure;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.WebUtilities;
 using SocialNetwork.Infraestructure.Identity.Entities;
 using SocialNewtwork.Core.Application.Dtos.Account;
 using SocialNewtwork.Core.Application.Dtos.Email;
-using SocialNewtwork.Core.Application.Enums;
 using SocialNewtwork.Core.Application.Interfaces.Services;
 using System.Text;
 
@@ -63,13 +61,6 @@ namespace SocialNetwork.Infraestructure.Identity.Services
             response.LastName = user.LastName;
             response.Name = user.Name;
             response.IsVerified = user.EmailConfirmed;
-
-            var rolesList = await _userManager.GetRolesAsync(user).ConfigureAwait(false);
-
-            response.Roles = rolesList.ToList();
-            response.IsVerified = user.EmailConfirmed;
-
-
             return response;
         }
 
@@ -117,7 +108,7 @@ namespace SocialNetwork.Infraestructure.Identity.Services
             var result = await _userManager.CreateAsync(user, request.Password);
             if (result.Succeeded)
             {
-                await _userManager.AddToRoleAsync(user, Roles.User.ToString());
+               
                 var verificationUri = await SendVerificationEmailUrl(user, origin);
                 await _emailService.SendAsync(new EmailRequest()
                 {
@@ -128,33 +119,6 @@ namespace SocialNetwork.Infraestructure.Identity.Services
                 });
             }
             else
-            {
-                response.HasError = true;
-                response.Error = "An error occured to register the user.";
-                return response;
-            }
-            return response;
-        }
-
-        public async Task<RegisterResponse> UpdateAsync(RegisterRequest request)
-        {
-            RegisterResponse response = new();
-            response.HasError = false;
-
-            var user = new ApplicationUser
-            {
-                Email = request.Email,
-                Name = request.Name,
-                LastName = request.LastName,
-                UserName = request.UserName,
-                Image = request.Image,
-                PhoneNumber = request.PhoneNumber,
-
-            };
-
-
-            var result = await _userManager.UpdateAsync(user);
-            if (!result.Succeeded)
             {
                 response.HasError = true;
                 response.Error = "An error occured to register the user.";
@@ -270,6 +234,24 @@ namespace SocialNetwork.Infraestructure.Identity.Services
             {
                 return $"$An error ocurred while confirming {user.Email}";
             }
+        }
+
+        public async Task<RegisterRequest> GetByUsername(string username)
+        {
+            var request = await _userManager.FindByNameAsync(username);
+
+            var user = new RegisterRequest()
+            {
+                Id = request.Id,
+                UserName = request.UserName,
+                Name = request.Name,
+                LastName = request.LastName,
+                PhoneNumber = request.PhoneNumber,
+                Image = request.Image,
+                Email = request.Email,
+            };
+
+            return user;
         }
 
         #endregion

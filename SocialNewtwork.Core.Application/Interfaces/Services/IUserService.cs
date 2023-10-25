@@ -12,7 +12,6 @@ namespace SocialNewtwork.Core.Application.Interfaces.Services
         Task<string> ConfirmEmailAsync(string userdId, string token);
         Task<ForgotPasswordResponse> ForgotPasswordAsync(ForgotPasswordViewModel model, string origin);
         Task<ResetPasswordResponse> ResetPasswordAsync(ResetPasswordViewModel model);
-
-        Task<RegisterResponse> UpdateAsync(RegisterUserViewModel model);
+        Task<RegisterUserViewModel> GetByUsername(string username);
     }
 }

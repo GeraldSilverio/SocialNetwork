@@ -4,6 +4,6 @@ namespace SocialNewtwork.Core.Application.Interfaces.Services
 {
     public interface IUploadFile
     {
-        string UplpadFile(IFormFile file, int id, bool isEditMode = false, string imagePath = "");
+        string UplpadFile(IFormFile file,string userName);
     }
 }

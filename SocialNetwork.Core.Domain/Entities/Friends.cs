@@ -6,7 +6,6 @@ namespace SocialNetwork.Core.Domain.Entities
     {
         public int IdFriend { get; set; }
         public string UserName {  get; set; } = null!;
-        public Users Users { get; set; }
-        public int IdUser { get; set; }
+        public string IdUser { get; set; } = null!;
     }
 }
