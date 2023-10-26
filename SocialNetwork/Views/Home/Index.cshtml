@@ -1,8 +1,78 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@using SocialNewtwork.Core.Application.Helpers;
+@using SocialNewtwork.Core.Application.ViewModels.UsersViewModels;
+@using SocialNewtwork.Core.Application.Dtos.Account;
+@inject IHttpContextAccessor httpContextAccessor
+@{
+    var User = httpContextAccessor.HttpContext.Session.Get<AuthenticationReponse>("user");
+
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+@{
+    ViewData["Title"] = "Publicaciones";
+}
+
+@if (User != null)
+{
+    <div class="container">
+        <div class="col-6 offset-3">
+
+
+            <div class="justify-content-start">
+                <form asp-controller="Post" asp-action="Postear" enctype="multipart/form-data">
+                    <div class="input-group mb-3">
+                        <input class="bg-black form-control form-control-sm text-white" style="border-radius:100px;" type="text" placeholder="En que piensas hoy?">
+                        <a class="btn btn-primary ms-1" style="border-radius:80px;"> Twittear</a>
+                    </div>
+                </form>
+            </div>
+            <div class="card text-center text-white mb-3" style="background-color: black; border: 1px solid gray;">
+
+                <div class="card-header" style="border: 1px solid gray;">
+                    <div class="d-flex justify-content-start align-items-start">
+                        <img src="@User.Image" style="width: 50px; border-radius: 50%;" />
+                        <p class="ms-2"> <strong> @User.Name @User.LastName  </strong> </p>
+                    </div>
+                </div>
+
+
+                <div class="card-body" style="border: 1px solid gray;">
+
+                    <p class="card-title text-start">Hola chicos, soy nuevo en esta red social, deben de darme amor</p>
+
+                    <img style="width: 600px; border-radius:10px;" src="@User.Image" />
+
+                </div>
+
+                <div class="card-footer text-body-secondary" style="border: 1px solid gray;">
+                    <div class="card bg-black">
+                        <div class="d-flex justify-content-start">
+                            <img src="@User.Image" style="width: 40px; border-radius: 50%;" />
+                            <p class="ms-2"> <strong> @User.Name @User.LastName   </strong> </p>
+                        </div>
+                        <div class="d-flex justify-content-start">
+                            <p>Porzingis la para</p>
+
+                        </div>
+                        <hr style="color:#DCDCDC">
+                       
+                    </div>
+
+                    <div class="justify-content-start">
+                        <form>
+                            <div class="input-group mb-3">
+                                <input class="bg-black form-control form-control-sm text-white" style="width: 80%; border-radius:100px;" type="text" placeholder="Postea tu respuesta">
+                                <a class="btn btn-primary ms-1" style="border-radius:80px;"> Comentar</a>
+                            </div>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+}
+
+
+
+
