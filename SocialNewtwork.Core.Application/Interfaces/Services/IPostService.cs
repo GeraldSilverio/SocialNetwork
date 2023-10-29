@@ -3,8 +3,8 @@ using SocialNewtwork.Core.Application.ViewModels.PostsViewModels;
 
 namespace SocialNewtwork.Core.Application.Interfaces.Services
 {
-    public interface IPostService:IGenericService<SavePostViewModel,EditPostViewModel,Posts>,IUploadFile
+    public interface IPostService:IGenericService<SavePostViewModel,PostViewModel,Posts>,IUploadFile
     {
-        Task<List<EditPostViewModel>> GetAllByUser(string user);
+        Task<List<PostViewModel>> GetAllByUser(string user);
     }
 }

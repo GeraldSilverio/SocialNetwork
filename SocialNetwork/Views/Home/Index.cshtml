@@ -13,35 +13,39 @@
     ViewData["Title"] = "Publicaciones";
 }
 
+
+
 @if (User != null)
 {
     <div class="container">
 
 
         <div class="col-6 offset-3">
-
-
             <div class="justify-content-start">
                 <form method="post" asp-controller="Home" asp-action="Index" enctype="multipart/form-data">
                     <div class="input-group mb-3">
-                        <input class="bg-black form-control form-control-sm text-white" asp-for="Content" style="border-radius:100px;" type="text" placeholder="En que piensas hoy?">
+                        <input class="form-control form-control-sm text-dark" asp-for="Content" style="border-radius:100px;  max-width: 600px; max-height: 400px;" type="text" placeholder="En que piensas hoy?">
+                        <aside>
+
+                            <input class="form-control form-control-sm border-cards ms-3" asp-for="File" required style="max-width: 90px;" />
+                        </aside>
+
                         <input type="hidden" asp-for="IdUser" value="@User.Id">
-                        <button type="submit" class="btn btn-primary ms-1" style="border-radius:80px;"> Twittear</button>
+
+                        <button type="submit" class="btn btn-primary ms-3" style="border-radius:80px;"> Twittear</button>
                     </div>
 
+
                     <div class="mb-2">
-
-                        <input class="form-control form-control-sm " asp-for="File" required />
-
                     </div>
                 </form>
             </div>
 
-            @foreach (EditPostViewModel item in ViewBag.Posts)
+            @foreach (PostViewModel item in ViewBag.Posts)
             {
-                <div class="card text-center text-white mb-3" style="background-color: black; border: 1px solid gray; border-top-right-radius:50px; border-top-left-radius:50px;">
+                <div class="card text-center text-dark mb-3 border-cards">
 
-                    <div class="card-header" style="border: 1px solid gray; border-top-right-radius:50px; border-top-left-radius:50px;">
+                    <div class="card-header">
                         <div class="d-flex justify-content-start align-items-start">
 
                             <img class="rounded-circle" src="@User.Image" style="width: 50px; height:40px; " />
@@ -51,20 +55,20 @@
                             </div>
 
                             <div class="d-flex justify-content-end">
-                                <p style="margin-left:120px;">@item.DateOfCreated</p>
+                                <p style="margin-left:140px;">@item.DateOfCreated</p>
 
-                                <a class="btn btn-danger bg-transparent d-flex justify-content-end " asp-controller="Home" asp-action="Delete" style="border:none; ">
+                                <a class="btn btn-danger bg-transparent d-flex justify-content-end " asp-controller="Home" asp-action="Delete" asp-route-id="@item.Id" style="border:none; ">
                                     <i class="fa-solid fa-trash " style="color: red;"></i>
                                 </a>
 
-                                <a class="btn btn-danger bg-transparent d-flex justify-content-end " asp-controller="Home" asp-action="Delete" style="border:none;">
+                                <a class="btn btn-danger bg-transparent d-flex justify-content-end " asp-controller="Home" asp-action="Update" asp-route-id="@item.Id" style="border:none;">
                                     <i class="fa-solid fa-square-pen" style="color: #f5ed00;"></i>
                                 </a>
                             </div>
                         </div>
                     </div>
 
-                    <div class="card-body" style="border: 1px solid gray;">
+                    <div class="card-body">
 
                         <p class="card-title text-start">@item.Content</p>
                         <hr>
@@ -74,25 +78,20 @@
                     </div>
 
 
-                    <div class="card-footer text-body-secondary" style="border: 1px solid gray;">
-                        <div class="card bg-black">
-                            <div class="d-flex justify-content-start">
-                                <img class="rounded-circle" src="@User.Image" style="width: 50px; height:40px;" />
-                                <p class="ms-2"> <strong> @User.Name @User.LastName</strong> </p>
-                            </div>
-                            <div class="d-flex justify-content-start">
-                                <p class="text-start">@item.Content</p>
-
-                            </div>
-                            <hr style="color:#DCDCDC">
-
+                    <div class="card-footer text-body-secondary">
+                        <div class="d-flex justify-content-start">
+                            <img class="rounded-circle" src="@User.Image" style="width: 50px; height:40px;" />
+                            <p class="ms-2"> <strong> @User.Name @User.LastName</strong> </p>
+                        </div>
+                        <div class="d-flex justify-content-start">
+                            <p class="text-start">@item.Content</p>
                         </div>
 
                         <div class="justify-content-start">
                             <form>
                                 <div class="input-group mb-3">
-                                    <input class="bg-black form-control form-control-sm text-white" style="width: 80%; border-radius:100px;" type="text" placeholder="Postea tu respuesta">
-                                    <a class="btn btn-primary ms-1" style="border-radius:80px;"> Comentar</a>
+                                    <input class="form-control form-control-sm text-primary" style="background-color:white;  width: 80%; border-radius:100px;" type="text" placeholder="Postea tu respuesta">
+                                    <a class="btn btn-primary ms-1 " style="border-radius:80px;"> Comentar</a>
                                 </div>
                             </form>
                         </div>
@@ -100,14 +99,13 @@
                     </div>
                 </div>
             }
-
-
         </div>
     </div>
 
 
 }
 <script src="https://kit.fontawesome.com/47ea8ef61d.js" crossorigin="anonymous"></script>
+
 
 
 

@@ -6,6 +6,7 @@ namespace SocialNewtwork.Core.Application.ViewModels.PostsViewModels
     public class SavePostViewModel
     {
         public int Id { get; set; }
+        [Required(ErrorMessage ="DEBES DE AGREGAR CONTENIDO A TU PUBLICACION")]
         public string Content { get; set; } = null!;
         public string IdUser { get; set; } = null!;
         public DateTime DateOfCreated { get; set; } = DateTime.Now;

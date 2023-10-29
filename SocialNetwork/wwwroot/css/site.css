@@ -18,11 +18,18 @@ html {
 }
 
 body {
-    background-color:black;
-  margin-bottom: 60px;
+    background-color: white;
+    margin-bottom: 60px;
 }
 
 image{
     width:50px,
     
+}
+
+.border-cards {
+    border-top-right-radius: 25px;
+    border-top-left-radius: 25px;
+    border-bottom-left-radius: 25px;
+    border-bottom-right-radius: 25px;
 }

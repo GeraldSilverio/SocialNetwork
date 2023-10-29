@@ -1,0 +1,34 @@
+﻿@using SocialNewtwork.Core.Application.ViewModels.PostsViewModels;
+@model SavePostViewModel
+
+<div class="container">
+    <div class="col-6 offset-3">
+        <div class="card">
+            <div class="card-header">
+                <h2 class="card-title text-center bg-primary text-white">EDITANDO POST</h2>
+            </div>
+            <div class="card-body">
+                <form class="form-floating" method="post" asp-controller="Home" asp-action="Update" enctype="multipart/form-data">
+
+                    <div class="form-floating mb-3">
+                        <input class="form-control" asp-for="Content" />
+                        <label class="form-label"> Contenido de tu publicacion</label>
+                        <span class="text-danger" asp-validation-for="Content"></span>
+                    </div>
+
+                    <div class="form-floating mb-3">
+                        <input class="form-control" asp-for="File" />
+                        <label class="form-label"> Imagen de tu publicacion</label>
+                    </div>
+
+                    <button class="btn btn-primary float-end" style="border-radius:50px;">Editar Publicacion</button> 
+
+                    <input type="hidden" asp-for="Id">
+                    <input type="hidden" asp-for="IdUser">
+                    <input type="hidden" asp-for="Image">
+                </form>
+            </div>
+        </div>
+    </div>
+
+</div>

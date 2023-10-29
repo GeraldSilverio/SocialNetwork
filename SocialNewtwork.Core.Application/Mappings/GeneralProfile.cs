@@ -44,7 +44,7 @@ namespace SocialNewtwork.Core.Application.Mappings
                 .ForMember(x => x.LastModifiedBy, opt => opt.Ignore())
                 .ForMember(x => x.Comments, opt => opt.Ignore()); 
             
-            CreateMap<Posts, EditPostViewModel>()
+            CreateMap<Posts, PostViewModel>()
                 .ForMember(x => x.File, opt => opt.Ignore())
                 .ReverseMap()
                 .ForMember(x => x.Created, opt => opt.Ignore())
