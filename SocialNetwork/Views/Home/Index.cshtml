@@ -1,6 +1,8 @@
 ﻿@using SocialNewtwork.Core.Application.Helpers;
+@using SocialNewtwork.Core.Application.ViewModels.PostsViewModels;
 @using SocialNewtwork.Core.Application.ViewModels.UsersViewModels;
 @using SocialNewtwork.Core.Application.Dtos.Account;
+@model SavePostViewModel
 @inject IHttpContextAccessor httpContextAccessor
 @{
     var User = httpContextAccessor.HttpContext.Session.Get<AuthenticationReponse>("user");
@@ -14,64 +16,98 @@
 @if (User != null)
 {
     <div class="container">
+
+
         <div class="col-6 offset-3">
 
 
             <div class="justify-content-start">
-                <form asp-controller="Post" asp-action="Postear" enctype="multipart/form-data">
+                <form method="post" asp-controller="Home" asp-action="Index" enctype="multipart/form-data">
                     <div class="input-group mb-3">
-                        <input class="bg-black form-control form-control-sm text-white" style="border-radius:100px;" type="text" placeholder="En que piensas hoy?">
-                        <a class="btn btn-primary ms-1" style="border-radius:80px;"> Twittear</a>
+                        <input class="bg-black form-control form-control-sm text-white" asp-for="Content" style="border-radius:100px;" type="text" placeholder="En que piensas hoy?">
+                        <input type="hidden" asp-for="IdUser" value="@User.Id">
+                        <button type="submit" class="btn btn-primary ms-1" style="border-radius:80px;"> Twittear</button>
+                    </div>
+
+                    <div class="mb-2">
+
+                        <input class="form-control form-control-sm " asp-for="File" required />
+
                     </div>
                 </form>
             </div>
-            <div class="card text-center text-white mb-3" style="background-color: black; border: 1px solid gray;">
 
-                <div class="card-header" style="border: 1px solid gray;">
-                    <div class="d-flex justify-content-start align-items-start">
-                        <img src="@User.Image" style="width: 50px; border-radius: 50%;" />
-                        <p class="ms-2"> <strong> @User.Name @User.LastName  </strong> </p>
-                    </div>
-                </div>
+            @foreach (EditPostViewModel item in ViewBag.Posts)
+            {
+                <div class="card text-center text-white mb-3" style="background-color: black; border: 1px solid gray; border-top-right-radius:50px; border-top-left-radius:50px;">
 
+                    <div class="card-header" style="border: 1px solid gray; border-top-right-radius:50px; border-top-left-radius:50px;">
+                        <div class="d-flex justify-content-start align-items-start">
 
-                <div class="card-body" style="border: 1px solid gray;">
+                            <img class="rounded-circle" src="@User.Image" style="width: 50px; height:40px; " />
 
-                    <p class="card-title text-start">Hola chicos, soy nuevo en esta red social, deben de darme amor</p>
-
-                    <img style="width: 600px; border-radius:10px;" src="@User.Image" />
-
-                </div>
-
-                <div class="card-footer text-body-secondary" style="border: 1px solid gray;">
-                    <div class="card bg-black">
-                        <div class="d-flex justify-content-start">
-                            <img src="@User.Image" style="width: 40px; border-radius: 50%;" />
-                            <p class="ms-2"> <strong> @User.Name @User.LastName   </strong> </p>
-                        </div>
-                        <div class="d-flex justify-content-start">
-                            <p>Porzingis la para</p>
-
-                        </div>
-                        <hr style="color:#DCDCDC">
-                       
-                    </div>
-
-                    <div class="justify-content-start">
-                        <form>
-                            <div class="input-group mb-3">
-                                <input class="bg-black form-control form-control-sm text-white" style="width: 80%; border-radius:100px;" type="text" placeholder="Postea tu respuesta">
-                                <a class="btn btn-primary ms-1" style="border-radius:80px;"> Comentar</a>
+                            <div class="text-center">
+                                <p class="ms-2"> <strong> @User.UserName </strong> </p>
                             </div>
-                        </form>
+
+                            <div class="d-flex justify-content-end">
+                                <p style="margin-left:120px;">@item.DateOfCreated</p>
+
+                                <a class="btn btn-danger bg-transparent d-flex justify-content-end " asp-controller="Home" asp-action="Delete" style="border:none; ">
+                                    <i class="fa-solid fa-trash " style="color: red;"></i>
+                                </a>
+
+                                <a class="btn btn-danger bg-transparent d-flex justify-content-end " asp-controller="Home" asp-action="Delete" style="border:none;">
+                                    <i class="fa-solid fa-square-pen" style="color: #f5ed00;"></i>
+                                </a>
+                            </div>
+                        </div>
                     </div>
 
+                    <div class="card-body" style="border: 1px solid gray;">
+
+                        <p class="card-title text-start">@item.Content</p>
+                        <hr>
+
+                        <img style="width: 500px; height:400px; border-radius:10px;" src="@item.Image" />
+
+                    </div>
+
+
+                    <div class="card-footer text-body-secondary" style="border: 1px solid gray;">
+                        <div class="card bg-black">
+                            <div class="d-flex justify-content-start">
+                                <img class="rounded-circle" src="@User.Image" style="width: 50px; height:40px;" />
+                                <p class="ms-2"> <strong> @User.Name @User.LastName</strong> </p>
+                            </div>
+                            <div class="d-flex justify-content-start">
+                                <p class="text-start">@item.Content</p>
+
+                            </div>
+                            <hr style="color:#DCDCDC">
+
+                        </div>
+
+                        <div class="justify-content-start">
+                            <form>
+                                <div class="input-group mb-3">
+                                    <input class="bg-black form-control form-control-sm text-white" style="width: 80%; border-radius:100px;" type="text" placeholder="Postea tu respuesta">
+                                    <a class="btn btn-primary ms-1" style="border-radius:80px;"> Comentar</a>
+                                </div>
+                            </form>
+                        </div>
+
+                    </div>
                 </div>
-            </div>
+            }
+
 
         </div>
     </div>
+
+
 }
+<script src="https://kit.fontawesome.com/47ea8ef61d.js" crossorigin="anonymous"></script>
 
 
 

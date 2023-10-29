@@ -74,7 +74,7 @@ namespace SocialNetwork.Controllers
                     return View(register);
                 }
                 var origin = Request.Headers["origin"];
-                register.Image = _userService.UplpadFile(register.File,register.UserName);
+                register.Image = _userService.UplpadFile(register.File, register.UserName);
                 RegisterResponse response = await _userService.RegisterAsync(register, origin);
                 if (response.HasError)
                 {

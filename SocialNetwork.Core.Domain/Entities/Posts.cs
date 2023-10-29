@@ -6,7 +6,7 @@ namespace SocialNetwork.Core.Domain.Entities
     {
         public string Image { get; set; } = null!;
         public string Content { get; set; } = null!;
-
+        public DateTime DateOfCreated { get; set; }
         //Navegation Properties
         public string IdUser { get; set; } = null!;
         public ICollection<Comments> Comments { get; set; }

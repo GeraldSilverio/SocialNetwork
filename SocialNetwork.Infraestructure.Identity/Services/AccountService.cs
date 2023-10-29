@@ -4,6 +4,7 @@ using SocialNetwork.Infraestructure.Identity.Entities;
 using SocialNewtwork.Core.Application.Dtos.Account;
 using SocialNewtwork.Core.Application.Dtos.Email;
 using SocialNewtwork.Core.Application.Interfaces.Services;
+using SocialNewtwork.Core.Application.ViewModels.UsersViewModels;
 using System.Text;
 
 namespace SocialNetwork.Infraestructure.Identity.Services

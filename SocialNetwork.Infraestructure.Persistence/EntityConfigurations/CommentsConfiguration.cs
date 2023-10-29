@@ -18,6 +18,7 @@ namespace SocialNetwork.Infraestructure.Persistence.EntityConfigurations
                 .WithMany(x => x.Comments)
                 .HasForeignKey(x => x.IdPost)
                 .OnDelete(DeleteBehavior.NoAction);
+
         }
     }
 }

@@ -6,13 +6,20 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace SocialNetwork.Infraestructure.Persistence.Migrations
 {
     /// <inheritdoc />
-    public partial class RelationsUpdate : Migration
+    public partial class Relationships : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
                 name: "Users");
+
+            migrationBuilder.AddColumn<DateTime>(
+                name: "DateOfCreated",
+                table: "Posts",
+                type: "datetime2",
+                nullable: false,
+                defaultValue: new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified));
 
             migrationBuilder.AddColumn<string>(
                 name: "IdUser",
@@ -39,7 +46,7 @@ namespace SocialNetwork.Infraestructure.Persistence.Migrations
                 name: "Friends",
                 columns: table => new
                 {
-                    IdFriend = table.Column<int>(type: "int", nullable: false),
+                    IdFriend = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     IdUser = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     UserName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -78,6 +85,10 @@ namespace SocialNetwork.Infraestructure.Persistence.Migrations
             migrationBuilder.DropIndex(
                 name: "IX_Comments_IdPost",
                 table: "Comments");
+
+            migrationBuilder.DropColumn(
+                name: "DateOfCreated",
+                table: "Posts");
 
             migrationBuilder.DropColumn(
                 name: "IdUser",

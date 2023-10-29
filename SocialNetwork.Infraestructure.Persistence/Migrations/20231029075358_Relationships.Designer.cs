@@ -12,8 +12,8 @@ using SocialNetwork.Infraestructure.Persistence.Contexts;
 namespace SocialNetwork.Infraestructure.Persistence.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20231025224433_RelationsUpdate")]
-    partial class RelationsUpdate
+    [Migration("20231029075358_Relationships")]
+    partial class Relationships
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -68,8 +68,8 @@ namespace SocialNetwork.Infraestructure.Persistence.Migrations
                     b.Property<string>("IdUser")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<int>("IdFriend")
-                        .HasColumnType("int");
+                    b.Property<string>("IdFriend")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime?>("Created")
                         .HasColumnType("datetime2");
@@ -109,6 +109,9 @@ namespace SocialNetwork.Infraestructure.Persistence.Migrations
 
                     b.Property<string>("CreatedBy")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("DateOfCreated")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("IdUser")
                         .IsRequired()

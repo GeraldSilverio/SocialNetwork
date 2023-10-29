@@ -4,7 +4,7 @@ namespace SocialNetwork.Core.Domain.Entities
 {
     public class Friends : AuditableBaseEntity
     {
-        public int IdFriend { get; set; }
+        public string IdFriend { get; set; } = null!;
         public string UserName {  get; set; } = null!;
         public string IdUser { get; set; } = null!;
     }

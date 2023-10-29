@@ -1,5 +1,6 @@
-﻿using SocialNewtwork.Core.Application.Dtos.Account;
-using SocialNewtwork.Core.Application.ViewModels.UsersViewModels;
+﻿
+using SocialNewtwork.Core.Application.Dtos.Account;
+
 
 namespace SocialNewtwork.Core.Application.Interfaces.Services
 {

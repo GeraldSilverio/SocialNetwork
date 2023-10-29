@@ -15,6 +15,7 @@ namespace SocialNewtwork.Core.Application
             #region Services
             services.AddTransient(typeof(IGenericService<,,>), typeof(GenericService<,,>));
             services.AddTransient<IUserService, UserServices>();
+            services.AddTransient<IPostService, PostService>();
             #endregion
         }
     }
