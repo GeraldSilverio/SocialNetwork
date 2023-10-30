@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using SocialNetwork.Core.Domain.Entities;
-using SocialNewtwork.Core.Application.Dtos.Account;
 using SocialNewtwork.Core.Application.Interfaces.Repositories;
 using SocialNewtwork.Core.Application.Interfaces.Services;
 using SocialNewtwork.Core.Application.ViewModels.PostsViewModels;
@@ -12,12 +11,15 @@ namespace SocialNewtwork.Core.Application.Services
     {
         public readonly IPostRepositoryAsync _postRepository;
         private readonly IAccountService _accountService;
+        private readonly IFriendsService _friendsService;
 
-        public PostService(IMapper mapper, IPostRepositoryAsync postRepository, IAccountService accountService) : base(mapper, postRepository)
+        public PostService(IMapper mapper, IPostRepositoryAsync postRepository, IAccountService accountService, IFriendsService friendsService) : base(mapper, postRepository)
         {
             _postRepository = postRepository;
             _accountService = accountService;
+            _friendsService = friendsService;
         }
+
 
         public override async Task Update(SavePostViewModel model, int id)
         {
@@ -36,7 +38,7 @@ namespace SocialNewtwork.Core.Application.Services
         public async Task<List<PostViewModel>> GetAllByUser(string user)
         {
             var userExis = await _accountService.GetByUsername(user);
-            return await _postRepository.GetAllByUser(userExis.Id);
+            return await _postRepository.GetAllByUserId(userExis.Id);
         }
 
         public string UplpadFile(IFormFile file, string idUser)
@@ -62,6 +64,31 @@ namespace SocialNewtwork.Core.Application.Services
                 file.CopyTo(stream);
             }
             return $"{basePath}/{fileName}";
+        }
+
+        //Declaro la lista donde se van a guardar todos los post de los amigos
+        List<PostViewModel> posts = new List<PostViewModel>();
+        public async Task<List<PostViewModel>> GetAllByFriend(string user)
+        {
+            //Obtengo el usuario en linea.
+            var userExis = await _accountService.GetByUsername(user);
+
+            //Obtengo los amigos del usuario.
+            var friends = await _friendsService.GetAllByUser(userExis.UserName);
+
+            //Ahora por cada amigo iterare para conseguir los post que tiene ese usuario.
+            foreach (var friend in friends)
+            {
+                var postFriends = await _postRepository.GetAllByUserId(friend.IdFriend);
+                //Luego por cada post se ira agregando a esta lista de post, para retornarla.
+                foreach (var post in postFriends)
+                {
+                    posts.Add(post);
+                }
+
+            }
+            //Algoritmo perfecto.
+            return posts.OrderByDescending(x=>x.Id).ToList();
         }
     }
 }

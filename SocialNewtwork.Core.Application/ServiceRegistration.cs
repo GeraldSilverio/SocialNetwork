@@ -1,5 +1,4 @@
-﻿using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using SocialNewtwork.Core.Application.Interfaces.Services;
 using SocialNewtwork.Core.Application.Services;
 using System.Reflection;
@@ -16,6 +15,7 @@ namespace SocialNewtwork.Core.Application
             services.AddTransient(typeof(IGenericService<,,>), typeof(GenericService<,,>));
             services.AddTransient<IUserService, UserServices>();
             services.AddTransient<IPostService, PostService>();
+            services.AddTransient<IFriendsService, FriendsService>();
             #endregion
         }
     }

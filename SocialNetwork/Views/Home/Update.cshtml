@@ -4,8 +4,8 @@
 <div class="container">
     <div class="col-6 offset-3">
         <div class="card">
-            <div class="card-header">
-                <h2 class="card-title text-center bg-primary text-white">EDITANDO POST</h2>
+            <div class="card-header bg-dark">
+                <h2 class="card-title text-center text-white">EDITANDO POST</h2>
             </div>
             <div class="card-body">
                 <form class="form-floating" method="post" asp-controller="Home" asp-action="Update" enctype="multipart/form-data">
@@ -21,7 +21,8 @@
                         <label class="form-label"> Imagen de tu publicacion</label>
                     </div>
 
-                    <button class="btn btn-primary float-end" style="border-radius:50px;">Editar Publicacion</button> 
+                    <button class="btn btn-dark float-end ms-2" style="border-radius:50px;">Editar Publicacion</button>
+                    <a class="btn btn-secondary float-end " asp-controller="Home" asp-action="Index" style="border-radius:50px;">Volver</a> 
 
                     <input type="hidden" asp-for="Id">
                     <input type="hidden" asp-for="IdUser">

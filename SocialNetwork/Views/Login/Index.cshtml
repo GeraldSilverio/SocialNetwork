@@ -3,17 +3,22 @@
 @model LoginViewModel
 
 @{
-    ViewData["Title"] = "Inicio / GeX" ;
-   
+    ViewData["Title"] = "Inicio / GeX";
+
 }
 
 <div class="container-fluid">
     <div class="row">
         <div class="col-12 d-flex justify-content-center align-items-center" style="min-height: 70vh;">
-            <div class="col-6">
-                <div class="card">
-                    <div class="card-header bg-primary text-light text-center">
-                        <h4>Inicia Sesión en GeX</h4>
+            <div class="col-5">
+                <div class="offset-2 mb-3">
+                    <img src="https://logos-world.net/wp-content/uploads/2023/08/X-Logo.png" style="width:300px;" />
+                </div>
+               
+                <div class="card border-cards">
+
+                    <div class="card-header bg-dark text-light text-center">
+                        <h4>GeX</h4>
                     </div>
                     <div class="card-body">
                         @if (Model.HasError)
@@ -27,19 +32,19 @@
 
                             <div class="form-floating mb-3">
                                 <input type="email" class="form-control" asp-for="Email" placeholder="gsilveriogmail.com" autocomplete="on">
-                                <label for="floatingInput">Ingresa el correo de tu cuenta GeX</label>
+                                <label for="floatingInput">GMAIL</label>
                                 <span asp-validation-for="Email" class="text-danger"></span>
                             </div>
-                            
+
                             <div class="form-floating mb-3">
                                 <input type="password" class="form-control" asp-for="Password" placeholder="gsilveriogmail.com">
-                                <label for="floatingInput">Ingrese su contraseña</label>
+                                <label for="floatingInput">PASSWORD</label>
                                 <span asp-validation-for="Password" class="text-danger"></span>
                             </div>
 
-                            
+
                             <div class="mb-3">
-                                <button type="submit" class="btn btn-primary float-end ms-2">Iniciar Sesión</button>
+                                <button type="submit" class="btn btn-outline-dark float-end ms-2" style="border-radius:50px; width:420px;">Iniciar Sesión</button>
                             </div>
 
                             <div class="mb-3">
@@ -49,8 +54,6 @@
                             <div class="mb-2">
                                 <span class="text-dark">Olvidates tu contraseña? <a class="text-primary" asp-controller="Login" asp-action="ForgotPassword">Olvide mi contraseña</a> </span>
                             </div>
-
-
 
                         </form>
                     </div>

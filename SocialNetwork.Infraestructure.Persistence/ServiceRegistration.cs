@@ -29,6 +29,7 @@ namespace SocialNetwork.Infraestructure.Persistence
 
             services.AddTransient(typeof(IGenericRepositoryAsync<>),typeof(GenericRepositoryAsync<>));
             services.AddTransient<IPostRepositoryAsync,PostRepositoryAsync>();
+            services.AddTransient<IFriendRepositotyAsync,FriendsRepositoryAsync>();
 
             #endregion
 

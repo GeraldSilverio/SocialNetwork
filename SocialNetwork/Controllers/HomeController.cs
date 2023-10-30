@@ -42,7 +42,6 @@ namespace SocialNetwork.Controllers
                 {
                     return View(ex.Message);
                 }
-
             }
 
             public async Task<IActionResult> Delete(int id)
@@ -95,7 +94,6 @@ namespace SocialNetwork.Controllers
                     return View(ex.Message);
                 }
             }
-
         }
     }
 }

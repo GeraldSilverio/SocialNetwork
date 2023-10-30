@@ -17,7 +17,10 @@ namespace SocialNetwork.Infraestructure.Persistence.Repositories
             _context = dbContext;
             _mapper = mapper;
         }
-        public async Task<List<PostViewModel>>GetAllByUser(string idUser)
+
+       
+
+        public async Task<List<PostViewModel>>GetAllByUserId(string idUser)
         {
             var post = await _context.Posts.OrderByDescending(p=> p.Id)
                 .Where(p => p.IdUser == idUser).ToListAsync();

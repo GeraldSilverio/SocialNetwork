@@ -241,6 +241,10 @@ namespace SocialNetwork.Infraestructure.Identity.Services
         {
             var request = await _userManager.FindByNameAsync(username);
 
+            if(request == null)
+            {
+                return null;
+            }
             var user = new RegisterRequest()
             {
                 Id = request.Id,
