@@ -24,7 +24,6 @@ namespace SocialNetwork.Controllers
             public async Task<IActionResult> Index()
             {
                 var user = _httpContextAccessor.HttpContext.User.Identity;
-
                 ViewBag.Posts = await _postService.GetAllByUser(user.Name);
                 return View();
             }

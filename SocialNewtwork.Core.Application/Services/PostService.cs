@@ -13,14 +13,15 @@ namespace SocialNewtwork.Core.Application.Services
         public readonly IPostRepositoryAsync _postRepository;
         private readonly IAccountService _accountService;
         private readonly IFriendsService _friendsService;
+        private readonly ICommentService _commentService;
 
-        public PostService(IMapper mapper, IPostRepositoryAsync postRepository, IAccountService accountService, IFriendsService friendsService) : base(mapper, postRepository)
+        public PostService(IMapper mapper, IPostRepositoryAsync postRepository, IAccountService accountService, IFriendsService friendsService, ICommentService commentService) : base(mapper, postRepository)
         {
             _postRepository = postRepository;
             _accountService = accountService;
             _friendsService = friendsService;
+            _commentService = commentService;
         }
-
 
         public override async Task Update(SavePostViewModel model, int id)
         {
@@ -36,11 +37,42 @@ namespace SocialNewtwork.Core.Application.Services
             await _postRepository.UpdateAsync(postedit, id);
         }
 
+        public override async Task Delete(int id)
+        {
+            var postcomment =  _commentService.GetAllByPostId(id);
+
+            foreach (var comment in await postcomment)
+            {
+                await _commentService.Delete(comment.Id);
+            }
+
+            await base.Delete(id);
+        }
+
         public async Task<List<PostViewModel>> GetAllByUser(string user)
         {
             var userExis = await _accountService.GetByUsername(user);
-            return await _postRepository.GetAllByUserId(userExis.Id);
+            var post = await _postRepository.GetAllByUserId(userExis.Id);
+            var postViewModels = new List<PostViewModel>();
+
+            foreach (var p in post)
+            {
+                var comments = await _commentService.GetAllByPostId(p.Id);
+                var postViewModel = new PostViewModel
+                {
+                    Id = p.Id,
+                    DateOfCreated = p.DateOfCreated,
+                    Image = p.Image,
+                    Content = p.Content,
+                    IdUser = p.IdUser,
+                    Comments = comments
+                };
+                postViewModels.Add(postViewModel);
+            }
+
+            return postViewModels;
         }
+
 
         public string UplpadFile(IFormFile file, string idUser)
         {
@@ -67,27 +99,22 @@ namespace SocialNewtwork.Core.Application.Services
             return $"{basePath}/{fileName}";
         }
 
-       
+
         public async Task<List<FriendsPostViewModel>> GetAllByFriend(string user)
         {
-            //Declaro la lista donde se van a guardar todos los post de los amigos
             List<FriendsPostViewModel> posts = new List<FriendsPostViewModel>();
-            //Obtengo el usuario en linea.
             var userExis = await _accountService.GetByUsername(user);
 
-            //Obtengo los amigos del usuario.
             var friends = await _friendsService.GetAllByUser(userExis.UserName);
-
-            //Ahora por cada amigo iterare para conseguir los post que tiene ese usuario.
             foreach (var friend in friends)
             {
                 var postFriends = await _postRepository.GetAllByUserId(friend.IdFriend);
-                //Luego por cada post se ira agregando a esta lista de post, para retornarla.
                 foreach (var post in postFriends)
                 {
                     var userExisted = await _accountService.GetById(post.IdUser);
                     var friendPost = new FriendsPostViewModel()
                     {
+                        Id = post.Id,
                         Image = post.Image,
                         Content = post.Content,
                         DateOfCreated = post.DateOfCreated,
@@ -95,12 +122,12 @@ namespace SocialNewtwork.Core.Application.Services
                         LastName = userExisted.LastName,
                         ImageUser = userExisted.Image,
                         UserName = userExisted.UserName,
+                        Comments = await _commentService.GetAllByPostId(post.Id)
                     };
                     posts.Add(friendPost);
                 }
             }
-            //Algoritmo perfecto.
-            return posts.OrderByDescending(x=>x.DateOfCreated).ToList();
+            return posts.OrderByDescending(x => x.DateOfCreated).ToList();
         }
     }
 }

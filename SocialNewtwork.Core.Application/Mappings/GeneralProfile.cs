@@ -39,6 +39,7 @@ namespace SocialNewtwork.Core.Application.Mappings
 
             CreateMap<Posts, SavePostViewModel>()
                 .ForMember(x => x.File, opt => opt.Ignore())
+                
                 .ReverseMap()
                 .ForMember(x => x.Created, opt => opt.Ignore())
                 .ForMember(x => x.CreatedBy, opt => opt.Ignore())
@@ -48,6 +49,7 @@ namespace SocialNewtwork.Core.Application.Mappings
 
             CreateMap<Posts, PostViewModel>()
                 .ForMember(x => x.File, opt => opt.Ignore())
+                .ForMember(x => x.Comments, opt => opt.Ignore())
                 .ReverseMap()
                 .ForMember(x => x.Created, opt => opt.Ignore())
                 .ForMember(x => x.CreatedBy, opt => opt.Ignore())
@@ -78,6 +80,14 @@ namespace SocialNewtwork.Core.Application.Mappings
 
             #region Comments
             CreateMap<Comments, SaveCommentViewModel>()
+               .ReverseMap()
+               .ForMember(x => x.Post, opt => opt.Ignore())
+               .ForMember(x => x.Created, opt => opt.Ignore())
+               .ForMember(x => x.CreatedBy, opt => opt.Ignore())
+               .ForMember(x => x.LastModified, opt => opt.Ignore())
+               .ForMember(x => x.LastModifiedBy, opt => opt.Ignore());
+            
+            CreateMap<Comments, CommetViewModel>()
                .ReverseMap()
                .ForMember(x => x.Post, opt => opt.Ignore())
                .ForMember(x => x.Created, opt => opt.Ignore())

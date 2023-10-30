@@ -1,4 +1,5 @@
 ﻿@using SocialNewtwork.Core.Application.Helpers;
+@using SocialNewtwork.Core.Application.ViewModels.CommentsViewModels;
 @using SocialNewtwork.Core.Application.ViewModels.PostsViewModels;
 @using SocialNewtwork.Core.Application.ViewModels.UsersViewModels;
 @using SocialNewtwork.Core.Application.Dtos.Account;
@@ -77,29 +78,34 @@
                     </div>
 
 
-                    <div class="card-footer text-body-secondary">
-                        <div class="d-flex justify-content-start">
-                            <img class="rounded-circle" src="@User.Image" style="width: 50px; height:40px;" />
-                            <p class="ms-2"> <strong> @User.Name @User.LastName</strong> </p>
-                        </div>
-                        <div class="d-flex justify-content-start">
-                            <p class="text-start">@item.Content</p>
-                        </div>
+                    @foreach (CommetViewModel comment in item.Comments)
+                    {
+                        <div class="card-footer text-body-secondary">
+                            <div class="d-flex justify-content-start">
+                                <img class="rounded-circle" src="@comment.UserImage" style="width: 50px; height:40px;" />
+                                <p class="ms-2"> <strong> @comment.UserName</strong> </p>
+                            </div>
+                            <div class="d-flex justify-content-start">
+                                <p class="text-start">@comment.Content</p>
+                            </div>
 
-                        <div class="justify-content-start">
-
-                            <form method="post" asp-controller="Home" asp-action="Comment">
-                                <div class="input-group mb-3">
-                                    <input id="Content" name="comment" class="form-control form-control-sm text-primary" style="background-color:white;  width: 80%; border-radius:100px;" type="text" placeholder="Postea tu respuesta">
-                                    <input type="hidden" name="IdUser" value="@User.Id">
-                                    <input type="hidden" name="IdPost" value="@item.Id">
-                                    <button type="submit" class="btn btn-dark ms-1 " style="border-radius:80px;"> Comentar</button>
-                                </div>
-                            </form>
 
                         </div>
+                    }
+                    <div class="justify-content-start">
+                        <form method="post" asp-controller="Home" asp-action="Comment">
+                            <div class="input-group mb-3">
+                                <input id="Content" name="comment" class="form-control form-control-sm text-primary" style="background-color:white;  width: 80%; border-radius:100px;" type="text" placeholder="Postea tu respuesta">
+                                <input type="hidden" name="IdUser" value="@User.Id">
+                                <input type="hidden" name="IdPost" value="@item.Id">
+                                <button type="submit" class="btn btn-dark ms-1 " style="border-radius:80px;"> Comentar</button>
+                            </div>
+                        </form>
+
 
                     </div>
+
+
                 </div>
             }
         </div>

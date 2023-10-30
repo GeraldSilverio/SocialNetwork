@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
+using SocialNetwork.Core.Domain.Entities;
+using SocialNewtwork.Core.Application.ViewModels.CommentsViewModels;
 
 namespace SocialNewtwork.Core.Application.ViewModels.PostsViewModels
 {
@@ -10,5 +12,6 @@ namespace SocialNewtwork.Core.Application.ViewModels.PostsViewModels
         public DateTime DateOfCreated { get; set; }
         public IFormFile? File { get; set; }
         public string? Image { get; set; }
+        public List<CommetViewModel>? Comments { get; set; }
     }
 }
