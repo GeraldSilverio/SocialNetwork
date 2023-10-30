@@ -11,7 +11,7 @@ namespace SocialNetwork.Infraestructure.Persistence.EntityConfigurations
         {
             builder.ToTable("Friends");
             //Keys and Restriction
-            builder.HasKey(x => new {x.IdUser,x.IdFriend});
+            builder.HasKey(x => x.Id);
             builder.Property(x => x.UserName).IsRequired();
 
            

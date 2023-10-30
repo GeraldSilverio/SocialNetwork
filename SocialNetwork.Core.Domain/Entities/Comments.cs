@@ -2,7 +2,7 @@
 
 namespace SocialNetwork.Core.Domain.Entities
 {
-    public class Comments:AuditableEntityWithId
+    public class Comments:AuditableBaseEntity
     {
         public string Content { get; set; } = null!;
 

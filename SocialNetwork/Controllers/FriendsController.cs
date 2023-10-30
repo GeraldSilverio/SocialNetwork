@@ -29,16 +29,35 @@ namespace SocialNetwork.Controllers
         {
             try
             {
+                var user = _httpContextAccessor.HttpContext.User.Identity;
                 if (!ModelState.IsValid)
                 {
+                    ViewBag.postFriends = await _postService.GetAllByFriend(user.Name);
+                    ViewBag.Friends = await _friendService.GetAllByUser(user.Name);
                     return View(model);
                 }
                 await _friendService.Add(model);
                 if (model.HasError == true)
                 {
+                    ViewBag.postFriends = await _postService.GetAllByFriend(user.Name);
+                    ViewBag.Friends = await _friendService.GetAllByUser(user.Name);
                     return View(model);
                 }
                 return RedirectToRoute(new { controller = "Friends", action = "Index" });
+            }
+            catch (Exception ex)
+            {
+                return View(ex.Message);
+            }
+        }
+
+        public async Task<IActionResult> Delete(int id)
+        {
+            try
+            {
+                await _friendService.Delete(id);
+                return RedirectToRoute(new {controller ="Friends",action = "Index"});   
+
             }
             catch (Exception ex)
             {

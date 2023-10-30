@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using SocialNetwork.Core.Domain.Entities;
 using SocialNewtwork.Core.Application.Interfaces.Repositories;
 using SocialNewtwork.Core.Application.Interfaces.Services;
+using SocialNewtwork.Core.Application.ViewModels.FriendViewModels;
 using SocialNewtwork.Core.Application.ViewModels.PostsViewModels;
 
 namespace SocialNewtwork.Core.Application.Services
@@ -66,10 +67,11 @@ namespace SocialNewtwork.Core.Application.Services
             return $"{basePath}/{fileName}";
         }
 
-        //Declaro la lista donde se van a guardar todos los post de los amigos
-        List<PostViewModel> posts = new List<PostViewModel>();
-        public async Task<List<PostViewModel>> GetAllByFriend(string user)
+       
+        public async Task<List<FriendsPostViewModel>> GetAllByFriend(string user)
         {
+            //Declaro la lista donde se van a guardar todos los post de los amigos
+            List<FriendsPostViewModel> posts = new List<FriendsPostViewModel>();
             //Obtengo el usuario en linea.
             var userExis = await _accountService.GetByUsername(user);
 
@@ -83,12 +85,23 @@ namespace SocialNewtwork.Core.Application.Services
                 //Luego por cada post se ira agregando a esta lista de post, para retornarla.
                 foreach (var post in postFriends)
                 {
-                    posts.Add(post);
+                    var userExisted = await _accountService.GetById(post.IdUser);
+                    var friendPost = new FriendsPostViewModel()
+                    {
+                        Image = post.Image,
+                        Content = post.Content,
+                        DateOfCreated = post.DateOfCreated,
+                        Name = userExisted.Name,
+                        LastName = userExisted.LastName,
+                        ImageUser = userExisted.Image,
+                        UserName = userExisted.UserName,
+                    };
+                    posts.Add(friendPost);
                 }
 
             }
             //Algoritmo perfecto.
-            return posts.OrderByDescending(x=>x.Id).ToList();
+            return posts.OrderByDescending(x=>x.DateOfCreated).ToList();
         }
     }
 }

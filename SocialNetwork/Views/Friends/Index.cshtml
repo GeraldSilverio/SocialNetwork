@@ -33,10 +33,10 @@
                         {
                             <tr>
                                 <td>
-                                    @item.UserName
+                                    <strong>@item.Name @item.LastName </strong>(@item.UserName)
                                 </td>
                                 <td style="margin-left:130px;">
-                                    <a class="btn btn-danger bg-transparent d-flex justify-content-end " asp-controller="Home" asp-action="Delete" asp-route-id="@item.IdFriend" style="border:none; ">
+                                    <a class="btn btn-danger bg-transparent d-flex justify-content-end " asp-controller="Friends" asp-action="Delete" asp-route-id="@item.Id" style="border:none; ">
                                         <i class="fa-solid fa-trash " style="color: red;"></i>
                                     </a>
                                 </td>
@@ -59,25 +59,28 @@
                             <input class="form-control form-control-sm text-dark" asp-for="UserName" style="border-radius:100px;  max-width: 600px; max-height: 400px;" type="text" placeholder="Escribe el nombre de tu amigo">
                             <input type="hidden" asp-for="IdUser" value="@User.Id">
                             <button type="submit" class="btn btn-dark ms-3" style="border-radius:80px;">Agregar Amigo</button>
+                        
                         </div>
+                        <span class="text-danger" asp-validation-for="UserName"></span>
                     </form>
                 </div>
-                @foreach (PostViewModel item in ViewBag.postFriends)
+                @foreach (FriendsPostViewModel item in ViewBag.postFriends)
                 {
                     <div class="card text-center text-dark mb-3 border-cards">
 
                         <div class="card-header">
                             <div class="d-flex justify-content-start align-items-start">
 
-                                <img class="rounded-circle" src="@User.Image" style="width: 50px; height:40px; " />
+                                <img class="rounded-circle" src="@item.ImageUser" style="width: 50px; height:40px; " />
 
                                 <div class="text-center">
-                                    <p class="ms-2"> <strong> @User.UserName </strong> </p>
+                                    <p class="ms-2"> <strong>@item.UserName </strong> </p>
                                 </div>
 
                                 <div class="d-flex justify-content-end">
-                                    <p style="margin-left:200px;">@item.DateOfCreated</p>
+                                    <p style="margin-left:190px;">@item.DateOfCreated</p>
                                 </div>
+
                             </div>
                         </div>
 
@@ -93,8 +96,8 @@
 
                         <div class="card-footer text-body-secondary">
                             <div class="d-flex justify-content-start">
-                                <img class="rounded-circle" src="@User.Image" style="width: 50px; height:40px;" />
-                                <p class="ms-2"> <strong> @User.Name @User.LastName</strong> </p>
+                                <img class="rounded-circle" src="@item.ImageUser" style="width: 50px; height:40px;" />
+                                <p class="ms-2"> <strong> @item.Name @item.LastName</strong> </p>
                             </div>
                             <div class="d-flex justify-content-start">
                                 <p class="text-start">@item.Content</p>
@@ -115,7 +118,7 @@
             </div>
         </div>
 
-       
+
     </div>
 
 }

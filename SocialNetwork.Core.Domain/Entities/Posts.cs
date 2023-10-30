@@ -2,7 +2,7 @@
 
 namespace SocialNetwork.Core.Domain.Entities
 {
-    public class Posts: AuditableEntityWithId
+    public class Posts: AuditableBaseEntity
     {
         public string Image { get; set; } = null!;
         public string Content { get; set; } = null!;

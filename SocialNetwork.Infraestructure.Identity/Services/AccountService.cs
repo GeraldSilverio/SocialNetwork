@@ -259,6 +259,28 @@ namespace SocialNetwork.Infraestructure.Identity.Services
             return user;
         }
 
+        public async Task<RegisterRequest> GetById(string idUser)
+        {
+            var request = await _userManager.FindByIdAsync(idUser);
+
+            if (request == null)
+            {
+                return null;
+            }
+            var user = new RegisterRequest()
+            {
+                Id = request.Id,
+                UserName = request.UserName,
+                Name = request.Name,
+                LastName = request.LastName,
+                PhoneNumber = request.PhoneNumber,
+                Image = request.Image,
+                Email = request.Email,
+            };
+
+            return user;
+        }
+
         #endregion
 
 

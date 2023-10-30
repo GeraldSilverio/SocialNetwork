@@ -35,13 +35,31 @@ namespace SocialNewtwork.Core.Application.Services
 
         public async Task<List<FriendViewModel>> GetAllByUser(string userName)
         {
+            List<FriendViewModel> friendsViewModels = new List<FriendViewModel>();
+
             //Obtengo el usuario que esta online.
             var userExis = await _accountService.GetByUsername(userName);
             //Mando a buscar sus amigos por su id.
             var friends = await _friendRepository.GetAllByUser(userExis.Id);
             //Mapeo el listado de friends y los retorno.
-            var friendsViewModel = _mapper.Map<List<FriendViewModel>>(friends);
-            return friendsViewModel;
+
+            foreach (var friend in friends)
+            {
+                //Buscando el amigo que se esta iterando.
+                var friendExisted = await _accountService.GetById(friend.IdFriend);
+                //Creando el objeto del tipo de la lista para ir agregandolos.
+                var friendView = new FriendViewModel()
+                {
+                    Id = friend.Id,
+                    IdFriend = friend.IdFriend,
+                    UserName = friend.UserName,
+                    Name = friendExisted.Name,
+                    LastName = friendExisted.LastName,
+                    IdUser = friend.IdUser
+                };
+                friendsViewModels.Add(friendView);
+            }
+            return friendsViewModels;
         }
     }
 }

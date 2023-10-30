@@ -12,7 +12,7 @@ using SocialNetwork.Infraestructure.Persistence.Contexts;
 namespace SocialNetwork.Infraestructure.Persistence.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20231029075358_Relationships")]
+    [Migration("20231030042831_Relationships")]
     partial class Relationships
     {
         /// <inheritdoc />
@@ -65,16 +65,24 @@ namespace SocialNetwork.Infraestructure.Persistence.Migrations
 
             modelBuilder.Entity("SocialNetwork.Core.Domain.Entities.Friends", b =>
                 {
-                    b.Property<string>("IdUser")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
 
-                    b.Property<string>("IdFriend")
-                        .HasColumnType("nvarchar(450)");
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime?>("Created")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("IdFriend")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("IdUser")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("LastModified")
@@ -87,7 +95,7 @@ namespace SocialNetwork.Infraestructure.Persistence.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("IdUser", "IdFriend");
+                    b.HasKey("Id");
 
                     b.ToTable("Friends", (string)null);
                 });
