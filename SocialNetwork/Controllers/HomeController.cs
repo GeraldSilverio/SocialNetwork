@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SocialNewtwork.Core.Application.Interfaces.Services;
+using SocialNewtwork.Core.Application.ViewModels.CommentsViewModels;
 using SocialNewtwork.Core.Application.ViewModels.PostsViewModels;
 
 namespace SocialNetwork.Controllers
@@ -12,10 +13,12 @@ namespace SocialNetwork.Controllers
         {
             private readonly IHttpContextAccessor _httpContextAccessor;
             private readonly IPostService _postService;
-            public HomeController(IPostService postService, IHttpContextAccessor httpContextAccessor)
+            private readonly ICommentService _commentService;
+            public HomeController(IPostService postService, IHttpContextAccessor httpContextAccessor, ICommentService commentService)
             {
                 _postService = postService;
                 _httpContextAccessor = httpContextAccessor;
+                _commentService = commentService;
             }
 
             public async Task<IActionResult> Index()
@@ -93,6 +96,18 @@ namespace SocialNetwork.Controllers
                 {
                     return View(ex.Message);
                 }
+            }
+            [HttpPost]
+            public  async Task<IActionResult> Comment(string IdUser, int IdPost,string comment)
+            {
+                var saveComment = new SaveCommentViewModel()
+                {
+                    IdPost = IdPost,
+                    Content = comment,
+                    IdUser = IdUser,
+                };
+                await _commentService.Add(saveComment);
+                return RedirectToRoute(new {controller ="Home", action ="Index"});
             }
         }
     }

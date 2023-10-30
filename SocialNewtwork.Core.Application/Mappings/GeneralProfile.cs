@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using SocialNetwork.Core.Domain.Entities;
 using SocialNewtwork.Core.Application.Dtos.Account;
+using SocialNewtwork.Core.Application.ViewModels.CommentsViewModels;
 using SocialNewtwork.Core.Application.ViewModels.FriendViewModels;
 using SocialNewtwork.Core.Application.ViewModels.PostsViewModels;
 using SocialNewtwork.Core.Application.ViewModels.UsersViewModels;
@@ -72,6 +73,18 @@ namespace SocialNewtwork.Core.Application.Mappings
                 .ForMember(x => x.CreatedBy, opt => opt.Ignore())
                 .ForMember(x => x.LastModified, opt => opt.Ignore())
                 .ForMember(x => x.LastModifiedBy, opt => opt.Ignore());
+
+            #endregion
+
+            #region Comments
+            CreateMap<Comments, SaveCommentViewModel>()
+               .ReverseMap()
+               .ForMember(x => x.Post, opt => opt.Ignore())
+               .ForMember(x => x.Created, opt => opt.Ignore())
+               .ForMember(x => x.CreatedBy, opt => opt.Ignore())
+               .ForMember(x => x.LastModified, opt => opt.Ignore())
+               .ForMember(x => x.LastModifiedBy, opt => opt.Ignore());
+
 
             #endregion
         }

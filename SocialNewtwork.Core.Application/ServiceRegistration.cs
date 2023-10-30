@@ -16,6 +16,7 @@ namespace SocialNewtwork.Core.Application
             services.AddTransient<IUserService, UserServices>();
             services.AddTransient<IPostService, PostService>();
             services.AddTransient<IFriendsService, FriendsService>();
+            services.AddTransient<ICommentService, CommentService>();
             #endregion
         }
     }

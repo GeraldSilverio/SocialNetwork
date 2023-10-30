@@ -26,11 +26,10 @@ namespace SocialNetwork.Infraestructure.Persistence
             #endregion
 
             #region Repositories
-
             services.AddTransient(typeof(IGenericRepositoryAsync<>),typeof(GenericRepositoryAsync<>));
             services.AddTransient<IPostRepositoryAsync,PostRepositoryAsync>();
             services.AddTransient<IFriendRepositotyAsync,FriendsRepositoryAsync>();
-
+            services.AddTransient<ICommentRepository,CommentReposityAsync>();
             #endregion
 
         }

@@ -87,12 +87,16 @@
                         </div>
 
                         <div class="justify-content-start">
-                            <form>
+
+                            <form method="post" asp-controller="Home" asp-action="Comment">
                                 <div class="input-group mb-3">
-                                    <input class="form-control form-control-sm text-primary" style="background-color:white;  width: 80%; border-radius:100px;" type="text" placeholder="Postea tu respuesta">
-                                    <a class="btn btn-dark ms-1 " style="border-radius:80px;"> Comentar</a>
+                                    <input id="Content" name="comment" class="form-control form-control-sm text-primary" style="background-color:white;  width: 80%; border-radius:100px;" type="text" placeholder="Postea tu respuesta">
+                                    <input type="hidden" name="IdUser" value="@User.Id">
+                                    <input type="hidden" name="IdPost" value="@item.Id">
+                                    <button type="submit" class="btn btn-dark ms-1 " style="border-radius:80px;"> Comentar</button>
                                 </div>
                             </form>
+
                         </div>
 
                     </div>

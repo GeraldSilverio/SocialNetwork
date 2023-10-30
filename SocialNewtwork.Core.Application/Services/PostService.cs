@@ -98,7 +98,6 @@ namespace SocialNewtwork.Core.Application.Services
                     };
                     posts.Add(friendPost);
                 }
-
             }
             //Algoritmo perfecto.
             return posts.OrderByDescending(x=>x.DateOfCreated).ToList();
