@@ -3,7 +3,6 @@ using SocialNetwork.Core.Domain.Entities;
 using SocialNewtwork.Core.Application.Interfaces.Repositories;
 using SocialNewtwork.Core.Application.Interfaces.Services;
 using SocialNewtwork.Core.Application.ViewModels.CommentsViewModels;
-using SocialNewtwork.Core.Application.ViewModels.FriendViewModels;
 
 namespace SocialNewtwork.Core.Application.Services
 {
@@ -18,7 +17,6 @@ namespace SocialNewtwork.Core.Application.Services
             _mapper = mapper;
             _accountService = accountService;
         }
-
         public async Task<List<CommetViewModel>> GetAllByPostId(int idPost)
         {
             List<CommetViewModel> commetViewModels = new();

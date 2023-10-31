@@ -2,7 +2,6 @@
 using SocialNetwork.Core.Domain.Entities;
 using SocialNetwork.Infraestructure.Persistence.Contexts;
 using SocialNewtwork.Core.Application.Interfaces.Repositories;
-using SocialNewtwork.Core.Application.ViewModels.FriendViewModels;
 
 namespace SocialNetwork.Infraestructure.Persistence.Repositories
 {
@@ -18,6 +17,20 @@ namespace SocialNetwork.Infraestructure.Persistence.Repositories
         {
             var friends = await _dbContext.Friends.Where(x => x.IdUser == idUser).ToListAsync();
             return friends;
+        }
+
+        public async Task<bool> IsFriendAdd(string idUser, string idFriend)
+        {
+            var friends = await _dbContext.Friends.ToListAsync();
+
+            foreach (var friend in friends)
+            {
+                if (friend.IdUser == idUser && friend.IdFriend == idFriend)
+                {
+                    return false;
+                }
+            }
+            return true;
         }
     }
 }

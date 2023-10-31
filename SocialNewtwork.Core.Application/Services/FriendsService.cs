@@ -10,21 +10,39 @@ namespace SocialNewtwork.Core.Application.Services
     {
         private readonly IFriendRepositotyAsync _friendRepository;
         private readonly IAccountService _accountService;
-        private readonly IMapper _mapper;
+
         public FriendsService(IMapper mapper, IFriendRepositotyAsync friendRepository, IAccountService accountService) : base(mapper, friendRepository)
         {
             _accountService = accountService;
             _friendRepository = friendRepository;
-            _mapper = mapper;
         }
 
         public override async Task<AddFriendViewModel> Add(AddFriendViewModel model)
         {
+            var user = await _accountService.GetById(model.IdUser);
             var friend = await _accountService.GetByUsername(model.UserName);
+
+            //Validando que el usuario exista.
             if (friend == null)
             {
                 model.HasError = true;
                 model.Error = "ESTE USUARIO NO EXISTE";
+                return model;
+            }
+            //Validando que no sean amigos.
+            var areFriend = await IsFriendAdd(model.IdUser, friend.Id);
+
+            if (areFriend == false)
+            {
+                model.HasError = true;
+                model.Error = "YA SON AMIGOS, NO LO PUEDES VOLVER A AGREGAR";
+                return model;
+            }
+            //Validando que no se quiere agregar el mismo.
+            if (model.UserName == user.UserName)
+            {
+                model.HasError = true;
+                model.Error = "NO PUEDES AGREGARTE A TI MISMO COMO AMIGO";
                 return model;
             }
             model.IdFriend = friend.Id;
@@ -60,6 +78,11 @@ namespace SocialNewtwork.Core.Application.Services
                 friendsViewModels.Add(friendView);
             }
             return friendsViewModels;
+        }
+
+        public async Task<bool> IsFriendAdd(string idUser, string idFriend)
+        {
+            return await _friendRepository.IsFriendAdd(idUser, idFriend);
         }
     }
 }

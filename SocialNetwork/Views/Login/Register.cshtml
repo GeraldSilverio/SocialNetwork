@@ -6,7 +6,7 @@
         <div class="col-12 d-flex justify-content-center align-items-center" style="min-height: 70vh;">
             <div class="col-6">
                 <div class="card">
-                    <div class="card-header bg-primary text-light text-center">
+                    <div class="card-header bg-dark text-light text-center">
                         <h4>VAMOS A CREAR TU CUENTA DE GeX</h4>
                     </div>
                     @if (Model.HasError)
@@ -19,6 +19,7 @@
                     <div class="card-body">
                         <form class="form-floating mb-3" method="post" asp-controller="Login" asp-action="Register" enctype="multipart/form-data">
 
+
                             <div class="form-floating mb-3">
                                 <input type="text" class="form-control" asp-for="Name" placeholder="Silverio Serrata" autocomplete="off" maxlength="40">
                                 <label for="floatingInput">Nombres</label>
@@ -30,6 +31,8 @@
                                 <label for="floatingInput">Apellidos</label>
                                 <span asp-validation-for="LastName" class="text-danger"></span>
                             </div>
+
+
 
                             <div class="form-floating mb-3">
                                 <input type="email" class="form-control" asp-for="Email" placeholder="name@example.com" autocomplete="off">
@@ -53,21 +56,21 @@
                                 <input type="password" class="form-control" asp-for="ConfirmPassword" placeholder="Password" autocomplete="off">
                                 <label>Confirmar Contraseña</label>
                                 <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
-                            </div>
-
+                            </div> 
+                            
                             <div class="form-floating mb-3">
-                                <input asp-for="PhoneNumber" type="number" class="form-control" placeholder="829-882-8744" autocomplete="off">
-                                <label asp-for="PhoneNumber">Numero Telefonico</label>
+                                <input type="text" class="form-control" asp-for="PhoneNumber" placeholder="Password" autocomplete="off" maxlength="10">
+                                <label>Numero Telefonico(REPUBLICA DOMINICANA)</label>
                                 <span asp-validation-for="PhoneNumber" class="text-danger"></span>
                             </div>
 
                             <div class="form-outline mb-4">
                                 <label asp-for="File" class="form-label">Imagen de perfil</label>
-                                <input asp-for="File" class="form-control"> 
+                                <input asp-for="File" class="form-control">
                                 <span asp-validation-for="File" class="text-danger"></span>
                             </div>
 
-                            <button type="submit" class="btn btn-primary float-end ms-2">Crear cuenta</button>
+                            <button type="submit" class="btn btn-outline-dark float-end ms-2">Crear cuenta</button>
                             <span class="text-dark">¿Ya tienes una cuenta? <a class="text-primary" asp-controller="Login" asp-action="Index"> Iniciar sesión</a></span>
                         </form>
                     </div>
@@ -76,3 +79,5 @@
         </div>
     </div>
 </div>
+
+

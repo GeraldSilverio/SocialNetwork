@@ -65,6 +65,20 @@
                         <span class="text-danger" asp-validation-for="UserName"></span>
                     </form>
                 </div>
+
+                @if (ViewBag.Friends.Count == 0)
+                {
+                    <h4>NO TIENES AMIGOS, AGREGA A ALGUIEN</h4>
+                }
+                else
+                {
+                    @if (ViewBag.postFriends.Count == 0)
+                    {
+                        <h4 class="text-center">TUS AMIGOS NO HAN POSTEADO NADA</h4>
+                    }
+
+                }
+
                 @foreach (FriendsPostViewModel item in ViewBag.postFriends)
                 {
                     <div class="card text-center text-dark mb-3 border-cards">
@@ -110,7 +124,7 @@
                             </div>
                         }
                         <div class="justify-content-start">
-                            <form method="post" asp-controller="Home" asp-action="Comment">
+                            <form method="post" asp-controller="Friends" asp-action="Comment">
                                 <div class="input-group mb-3">
                                     <input id="Content" name="comment" class="form-control form-control-sm text-primary" style="background-color:white;  width: 80%; border-radius:100px;" type="text" placeholder="Postea tu respuesta">
                                     <input type="hidden" name="IdUser" value="@User.Id">

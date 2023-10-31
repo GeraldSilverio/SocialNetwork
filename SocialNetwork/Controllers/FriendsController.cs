@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SocialNewtwork.Core.Application.Interfaces.Services;
+using SocialNewtwork.Core.Application.Services;
+using SocialNewtwork.Core.Application.ViewModels.CommentsViewModels;
 using SocialNewtwork.Core.Application.ViewModels.FriendViewModels;
 
 namespace SocialNetwork.Controllers
@@ -9,12 +11,14 @@ namespace SocialNetwork.Controllers
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IFriendsService _friendService;
         private readonly IPostService _postService;
+        private readonly ICommentService _commentService;
 
-        public FriendsController(IFriendsService friendService, IHttpContextAccessor httpContextAccessor, IPostService postService)
+        public FriendsController(IFriendsService friendService, IHttpContextAccessor httpContextAccessor, IPostService postService, ICommentService commentService)
         {
             _friendService = friendService;
             _httpContextAccessor = httpContextAccessor;
             _postService = postService;
+            _commentService = commentService;
         }
 
         public async Task<IActionResult> Index()
@@ -36,6 +40,7 @@ namespace SocialNetwork.Controllers
                     ViewBag.Friends = await _friendService.GetAllByUser(user.Name);
                     return View(model);
                 }
+                
                 await _friendService.Add(model);
                 if (model.HasError == true)
                 {
@@ -63,6 +68,24 @@ namespace SocialNetwork.Controllers
             {
                 return View(ex.Message);
             }
+        }
+        [HttpPost]
+        public async Task<IActionResult> Comment(string IdUser, int IdPost, string comment)
+        {
+            if(comment == null)
+            {
+                return RedirectToRoute(new { controller = "Friends", action = "Index" });
+            }
+            var saveComment = new SaveCommentViewModel()
+            {
+                IdPost = IdPost,
+                Content = comment,
+                IdUser = IdUser,
+            };
+
+           
+            await _commentService.Add(saveComment);
+            return RedirectToRoute(new { controller = "Friends", action = "Index" });
         }
     }
 }

@@ -82,7 +82,7 @@ namespace SocialNetwork.Controllers
                     register.HasError = response.HasError;
                     return View(register);
                 }
-                return RedirectToRoute(new { controller = "Login", action = "Index" });
+                return RedirectToRoute(new { controller = "Login", action = "UserCreateConfirm" });
             }
             catch (Exception ex)
             {
@@ -118,7 +118,7 @@ namespace SocialNetwork.Controllers
                 return View(model);
             }
 
-            return RedirectToRoute(new { controller = "", action = "" });
+            return RedirectToRoute(new { controller = "Login", action = "ResetPasswordConfirm" });
         }
 
         public IActionResult ResetPassword(ResetPasswordViewModel model)
@@ -140,7 +140,21 @@ namespace SocialNetwork.Controllers
                 model.Error = response.Error;
                 return View(model);
             }
-            return RedirectToRoute(new { controller = "", action = "" });
+            return RedirectToRoute(new { controller = "Login", action = "PasswordChangeConfirm" });
+        }
+
+        public IActionResult UserCreateConfirm()
+        {
+            return View();
+        }
+
+        public IActionResult ResetPasswordConfirm()
+        {
+            return View();
+        }
+        public IActionResult PasswordChangeConfirm()
+        {
+            return View();
         }
     }
 }

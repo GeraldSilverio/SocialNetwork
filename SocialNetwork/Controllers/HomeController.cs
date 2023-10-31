@@ -30,10 +30,12 @@ namespace SocialNetwork.Controllers
             [HttpPost]
             public async Task<IActionResult> Index(SavePostViewModel model)
             {
+                var user = _httpContextAccessor.HttpContext.User.Identity;
                 try
                 {
                     if (!ModelState.IsValid)
                     {
+                        ViewBag.Posts = await _postService.GetAllByUser(user.Name);
                         return View(model);
                     }
                     model.Image = _postService.UplpadFile(model.File, model.IdUser);

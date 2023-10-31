@@ -40,18 +40,22 @@
                                 <input type="password" class="form-control" asp-for="Password" placeholder="gsilveriogmail.com">
                                 <label for="floatingInput">PASSWORD</label>
                                 <span asp-validation-for="Password" class="text-danger"></span>
-                            </div>
 
+                            </div>
 
                             <div class="mb-3">
                                 <button type="submit" class="btn btn-outline-dark float-end ms-2" style="border-radius:50px; width:420px;">Iniciar Sesión</button>
+
                             </div>
 
-                            <div class="mb-3">
+                           
+                               
+
+                            <div class="mb-2">
                                 <span class="text-dark">Aun no tienes cuenta? <a class="text-primary" asp-controller="Login" asp-action="Register">Registrate</a> </span>
                             </div>
 
-                            <div class="mb-2">
+                            <div>
                                 <span class="text-dark">Olvidates tu contraseña? <a class="text-primary" asp-controller="Login" asp-action="ForgotPassword">Olvide mi contraseña</a> </span>
                             </div>
 
