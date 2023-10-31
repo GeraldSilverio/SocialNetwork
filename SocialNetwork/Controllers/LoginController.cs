@@ -118,9 +118,8 @@ namespace SocialNetwork.Controllers
                 return View(model);
             }
 
-            return RedirectToRoute(new { controller = "Login", action = "ResetPasswordConfirm" });
+            return RedirectToRoute(new { controller = "Login", action = "PasswordChangeAuto" });
         }
-
         public IActionResult ResetPassword(ResetPasswordViewModel model)
         {
             return View(model);
@@ -148,12 +147,13 @@ namespace SocialNetwork.Controllers
             return View();
         }
 
-        public IActionResult ResetPasswordConfirm()
+        public IActionResult PasswordChangeAuto()
         {
             return View();
         }
-        public IActionResult PasswordChangeConfirm()
+        public async Task<IActionResult> PasswordChangeConfirm()
         {
+            await LogOut();
             return View();
         }
     }

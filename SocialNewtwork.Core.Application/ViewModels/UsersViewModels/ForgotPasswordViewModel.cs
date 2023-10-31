@@ -7,7 +7,7 @@ namespace SocialNewtwork.Core.Application.ViewModels.UsersViewModels
 
         [Required(ErrorMessage = "ESTE CAMPO ES REQUERIDO")]
         [DataType(DataType.Text)]
-        public string Email { get; set; }
+        public string UserName { get; set; }
         public bool HasError { get; set; }
         public string? Error { get; set; }
     }

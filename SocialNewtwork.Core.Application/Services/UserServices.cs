@@ -86,5 +86,7 @@ namespace SocialNewtwork.Core.Application.Services
             }
             return $"{basePath}/{fileName}";
         }
+
+        
     }
 }

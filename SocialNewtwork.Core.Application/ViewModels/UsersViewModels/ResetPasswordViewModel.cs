@@ -7,11 +7,7 @@ namespace SocialNewtwork.Core.Application.ViewModels.UsersViewModels
 
         [Required(ErrorMessage = "Debe colocar el correo del usuario")]
         [DataType(DataType.Text)]
-        public string Email { get; set; } = null;
-
-        [Required(ErrorMessage = "Debe tener un token")]
-        [DataType(DataType.Text)]
-        public string? Token { get; set; }
+        public string Email { get; set; } = null!;
 
         [Required(ErrorMessage = "Debe colocar una contraseña")]
         [DataType(DataType.Password)]

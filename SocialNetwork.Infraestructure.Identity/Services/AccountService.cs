@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.WebUtilities;
+using Newtonsoft.Json.Linq;
 using SocialNetwork.Infraestructure.Identity.Entities;
 using SocialNewtwork.Core.Application.Dtos.Account;
 using SocialNewtwork.Core.Application.Dtos.Email;
+using SocialNewtwork.Core.Application.Helpers;
 using SocialNewtwork.Core.Application.Interfaces.Services;
 using System.Text;
 
@@ -108,7 +110,7 @@ namespace SocialNetwork.Infraestructure.Identity.Services
             var result = await _userManager.CreateAsync(user, request.Password);
             if (result.Succeeded)
             {
-               
+
                 var verificationUri = await SendVerificationEmailUrl(user, origin);
                 await _emailService.SendAsync(new EmailRequest()
                 {
@@ -135,21 +137,29 @@ namespace SocialNetwork.Infraestructure.Identity.Services
             ForgotPasswordResponse response = new();
             response.HasError = false;
 
-            var account = await _userManager.FindByEmailAsync(request.Email);
+            var account = await _userManager.FindByNameAsync(request.UserName);
 
             if (account == null)
             {
                 response.HasError = true;
-                response.Error = $"Don't exist account with the Email {request.Email}";
+                response.Error = $"NO EXISTE UNA CUENTA CON ESE NOMBRE DE USUARIO:{request.UserName}";
+                return response;
+            }
+            var token = await _userManager.GeneratePasswordResetTokenAsync(account);
+            var password = GeneratePassword.Generate();
+            var responseChange = await _userManager.ResetPasswordAsync(account, token, password);
+            if (!responseChange.Succeeded)
+            {
+                response.HasError = true;
+                response.Error = "NO SE PUDO EDITAR BRO";
                 return response;
             }
 
-            var verificationUri = await SendForgotPasswordUri(account, origin);
             await _emailService.SendAsync(new EmailRequest()
             {
                 To = account.Email,
-                Body = $"Please change your password. Click Here => {verificationUri}",
-                Subject = "Reset Password"
+                Body = $"HEMOS CAMBIADO TU CONTRASEÑA AUTOMATICAMENTE,AHORA PODRAS INICIAR SESION CON ESTA: {password}",
+                Subject = "New Password"
 
             });
 
@@ -166,12 +176,12 @@ namespace SocialNetwork.Infraestructure.Identity.Services
             if (account == null)
             {
                 response.HasError = true;
-                response.Error = $"No accounts registered with {request.Email}";
+                response.Error = $"NO HAY CUENTA CON ESTE CORREO {request.Email}";
                 return response;
             }
-            request.Token = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(request.Token));
+            var token = await _userManager.GeneratePasswordResetTokenAsync(account);
 
-            var result = await _userManager.ResetPasswordAsync(account, request.Token, request.Password);
+            var result = await _userManager.ResetPasswordAsync(account, token, request.Password);
 
             if (!result.Succeeded)
             {
@@ -179,23 +189,7 @@ namespace SocialNetwork.Infraestructure.Identity.Services
                 response.Error = $"$An error ocurred while reset password {request.Email}";
                 return response;
             }
-
             return response;
-        }
-
-        private async Task<string> SendForgotPasswordUri(ApplicationUser user, string origin)
-        {
-            //Codificando el token de autenticacion
-            var code = await _userManager.GeneratePasswordResetTokenAsync(user);
-            code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
-            //Creando la ruta.
-            var route = "Login/ResetPassword";
-            //Contatenando el LocalHost mas la ruta del controller.
-            var Uri = new Uri(string.Concat($"{origin}/", route));
-            //Creando el mensaje de verificacion.
-            //Token de verificacion
-            var verificationUrl = QueryHelpers.AddQueryString(Uri.ToString(), "token", code);
-            return verificationUrl;
         }
 
         #endregion
@@ -240,7 +234,7 @@ namespace SocialNetwork.Infraestructure.Identity.Services
         {
             var request = await _userManager.FindByNameAsync(username);
 
-            if(request == null)
+            if (request == null)
             {
                 return null;
             }
