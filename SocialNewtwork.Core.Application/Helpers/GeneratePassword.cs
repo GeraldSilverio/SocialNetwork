@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Text;
 
 namespace SocialNewtwork.Core.Application.Helpers
 {
@@ -10,21 +6,21 @@ namespace SocialNewtwork.Core.Application.Helpers
     {
         public static string Generate()
         {
-            int longitud = 10;
-            string caracteresPermitidos = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789@";
+            int leghtOfPassword = 10;
+            string allowedcharacters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789@";
             Random random = new Random();
-            StringBuilder aleatoria = new StringBuilder(longitud);
+            StringBuilder aleatorie = new StringBuilder(leghtOfPassword);
 
-            aleatoria.Append(caracteresPermitidos[random.Next(26)]); 
-            aleatoria.Append(caracteresPermitidos[26 + random.Next(26)]); 
-            aleatoria.Append(caracteresPermitidos[52 + random.Next(10)]);
-            aleatoria.Append('@'); 
+            aleatorie.Append(allowedcharacters[random.Next(26)]);
+            aleatorie.Append(allowedcharacters[26 + random.Next(26)]);
+            aleatorie.Append(allowedcharacters[52 + random.Next(10)]);
+            aleatorie.Append('@'); 
 
-            for (int i = 4; i < longitud; i++)
+            for (int i = 4; i < leghtOfPassword; i++)
             {
-                aleatoria.Append(caracteresPermitidos[random.Next(caracteresPermitidos.Length)]);
+                aleatorie.Append(allowedcharacters[random.Next(allowedcharacters.Length)]);
             }
-            string cadenaAleatoria = Shuffle(aleatoria.ToString());
+            string cadenaAleatoria = Shuffle(aleatorie.ToString());
             return cadenaAleatoria;
         }
 
