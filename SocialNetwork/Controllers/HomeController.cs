@@ -102,6 +102,10 @@ namespace SocialNetwork.Controllers
             [HttpPost]
             public  async Task<IActionResult> Comment(string IdUser, int IdPost,string comment)
             {
+                if (comment == null)
+                {
+                    return RedirectToRoute(new { controller = "Home", action = "Index" });
+                }
                 var saveComment = new SaveCommentViewModel()
                 {
                     IdPost = IdPost,

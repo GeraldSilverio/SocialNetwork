@@ -1,11 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using SocialNewtwork.Core.Application.Interfaces.Services;
-using SocialNewtwork.Core.Application.Services;
 using SocialNewtwork.Core.Application.ViewModels.CommentsViewModels;
 using SocialNewtwork.Core.Application.ViewModels.FriendViewModels;
 
 namespace SocialNetwork.Controllers
 {
+    [Authorize]
     public class FriendsController : Controller
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
