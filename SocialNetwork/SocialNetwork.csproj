@@ -25,7 +25,8 @@
 
   <ItemGroup>
     <Folder Include="Middlewares\" />
-    <Folder Include="wwwroot\Images\" />
+    <Folder Include="wwwroot\Images\Posts\" />
+    <Folder Include="wwwroot\Images\Users\" />
   </ItemGroup>
 
 </Project>
