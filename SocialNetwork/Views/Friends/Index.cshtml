@@ -1,0 +1,149 @@
+﻿@using SocialNewtwork.Core.Application.Helpers;
+@using SocialNewtwork.Core.Application.ViewModels.CommentsViewModels;
+@using SocialNewtwork.Core.Application.ViewModels.FriendViewModels;
+@using SocialNewtwork.Core.Application.ViewModels.PostsViewModels;
+@using SocialNewtwork.Core.Application.ViewModels.UsersViewModels;
+@using SocialNewtwork.Core.Application.Dtos.Account;
+@model AddFriendViewModel
+@inject IHttpContextAccessor httpContextAccessor
+@{
+    var User = httpContextAccessor.HttpContext.Session.Get<AuthenticationReponse>("user");
+
+}
+
+@{
+    ViewData["Title"] = "Publicaciones";
+}
+
+
+
+@if (User != null)
+{
+    <div class="container">
+        <div class="row">
+            <div class="col-3">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>AMIGOS</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (FriendViewModel item in ViewBag.Friends)
+                        {
+                            <tr>
+                                <td>
+                                    <strong>@item.Name @item.LastName </strong>(@item.UserName)
+                                </td>
+                                <td style="margin-left:130px;">
+                                    <a class="btn btn-danger bg-transparent d-flex justify-content-end " asp-controller="Friends" asp-action="Delete" asp-route-id="@item.Id" style="border:none; ">
+                                        <i class="fa-solid fa-trash " style="color: red;"></i>
+                                    </a>
+                                </td>
+
+                            </tr>
+                        }
+                </table>
+            </div>
+            <div class="col-6">
+                @if (Model != null && Model.HasError)
+                {
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <p class="text-center">@Model.Error</p>
+                        <button type="button" class=" btn btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                }
+                <div class="justify-content-start">
+                    <form method="post" asp-controller="Friends" asp-action="Index">
+                        <div class="input-group mb-3">
+                            <input class="form-control form-control-sm text-dark" asp-for="UserName" style="border-radius:100px;  max-width: 600px; max-height: 400px;" type="text" placeholder="Escribe el nombre de tu amigo">
+                            <input type="hidden" asp-for="IdUser" value="@User.Id">
+                            <button type="submit" class="btn btn-dark ms-3" style="border-radius:80px;">Agregar Amigo</button>
+
+                        </div>
+                        <span class="text-danger" asp-validation-for="UserName"></span>
+                    </form>
+                </div>
+
+                @if (ViewBag.Friends.Count == 0)
+                {
+                    <h4>NO TIENES AMIGOS, AGREGA A ALGUIEN</h4>
+                }
+                else
+                {
+                    @if (ViewBag.postFriends.Count == 0)
+                    {
+                        <h4 class="text-center">TUS AMIGOS NO HAN POSTEADO NADA</h4>
+                    }
+
+                }
+
+                @foreach (FriendsPostViewModel item in ViewBag.postFriends)
+                {
+                    <div class="card text-center text-dark mb-3 border-cards">
+
+                        <div class="card-header">
+                            <div class="d-flex justify-content-start align-items-start">
+
+                                <img class="rounded-circle" src="@item.ImageUser" style="width: 50px; height:40px; " />
+
+                                <div class="text-center">
+                                    <p class="ms-2"> <strong>@item.UserName </strong> </p>
+                                </div>
+
+                                <div class="d-flex justify-content-end">
+                                    <p style="margin-left:190px;">@item.DateOfCreated</p>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="card-body">
+
+                            <p class="card-title text-start">@item.Content</p>
+                            <hr>
+
+                            <img style="width: 500px; height:400px; border-radius:10px;" src="@item.Image" />
+
+                        </div>
+
+
+                        @foreach (CommetViewModel comment in item.Comments)
+                        {
+                            <div class="card-footer text-body-secondary">
+                                <div class="d-flex justify-content-start">
+                                    <img class="rounded-circle" src="@comment.UserImage" style="width: 50px; height:40px;" />
+                                    <p class="ms-2"> <strong> @comment.UserName</strong> </p>
+                                </div>
+                                <div class="d-flex justify-content-start">
+                                    <p class="text-start">@comment.Content</p>
+                                </div>
+
+
+                            </div>
+                        }
+                        <div class="justify-content-start">
+                            <form method="post" asp-controller="Friends" asp-action="Comment">
+                                <div class="input-group mb-3">
+                                    <input id="Content" name="comment" class="form-control form-control-sm text-primary" style="background-color:white;  width: 80%; border-radius:100px;" type="text" placeholder="Postea tu respuesta">
+                                    <input type="hidden" name="IdUser" value="@User.Id">
+                                    <input type="hidden" name="IdPost" value="@item.Id">
+                                    <button type="submit" class="btn btn-dark ms-1 " style="border-radius:80px;"> Comentar</button>
+                                </div>
+                            </form>
+
+
+                        </div>
+
+
+                    </div>
+                }
+            </div>
+        </div>
+
+
+    </div>
+
+}
+<script src="https://kit.fontawesome.com/47ea8ef61d.js" crossorigin="anonymous"></script>

@@ -15,14 +15,6 @@ namespace SocialNetwork.Infraestructure.Persistence.EntityConfigurations
             //Properties
             builder.Property(x => x.Content).IsRequired();
             builder.Property(x => x.Image).IsRequired();
-
-            //Relationship
-            builder.HasOne(x=> x.User)
-                .WithMany(x=> x.Posts)
-                .HasForeignKey(x=> x.IdUser)
-                .OnDelete(DeleteBehavior.Cascade);
-            
-
         }
     }
 }

@@ -1,72 +1,70 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Http;
-using SocialNetwork.Core.Domain.Entities;
-using SocialNewtwork.Core.Application.Dtos.Email;
-using SocialNewtwork.Core.Application.Interfaces.Repositories;
+using SocialNewtwork.Core.Application.Dtos.Account;
 using SocialNewtwork.Core.Application.Interfaces.Services;
 using SocialNewtwork.Core.Application.ViewModels.UsersViewModels;
 
 namespace SocialNewtwork.Core.Application.Services
 {
-    public class UserServices : GenericService<RegisterUserViewModel, UserViewModel, Users>, IUserService
+    public class UserServices : IUserService
     {
-        private readonly IUserRepository _userRepository;
-        private readonly IEmailService _emailService;
-        public UserServices(IMapper mapper, IUserRepository userRepository, IEmailService emailService) : base(mapper, userRepository)
+        private readonly IAccountService _accountService;
+        private readonly IMapper _mapper;
+
+        public UserServices(IMapper mapper, IAccountService accountService)
         {
-            _userRepository = userRepository;
-            _emailService = emailService;
+
+            _accountService = accountService;
+            _mapper = mapper;
+
         }
         //Metodo Login.
-        public async Task<UserViewModel> LoginAsync(LoginViewModel loginView)
+        public async Task<AuthenticationReponse> LoginAsync(LoginViewModel request)
         {
-            Users user = await _userRepository.LoginAsync(loginView);
-
-            if (user == null)
-            {
-                return null;
-            }
-            UserViewModel userVw = new()
-            {
-                Id = user.Id,
-                Name = user.Name,
-                LastName = user.LastName,
-                Email = user.Email,
-                UserName = user.UserName,
-                Image = user.Image,
-            };
-            return userVw;
+            AuthenticationRequest loginRequest = _mapper.Map<AuthenticationRequest>(request);
+            AuthenticationReponse userResponse = await _accountService.AuthenticationAsync(loginRequest);
+            return userResponse;
         }
 
-        //Sobrescribiendo el metodo Add,para enviar el mensaje de autenticacion del usuario.
-        public override  async Task<RegisterUserViewModel> Add(RegisterUserViewModel model)
+        public async Task SignOutAsync()
         {
-           var userVm = await base.Add(model);
+            await _accountService.SingOutAsync();
+        }
+        public async Task<RegisterResponse> RegisterAsync(RegisterUserViewModel model, string origin)
+        {
+            RegisterRequest registerRequest = _mapper.Map<RegisterRequest>(model);
+            return await _accountService.RegisterUserAsync(registerRequest, origin);
+        }
 
-            await _emailService.SendAsync(new EmailRequest()
-            {
-                To = userVm.Email,
-                Subject = "Welcome to Gex!",
-                Body = $"<h1 style=" + "color: blue;" + ">Welcome to Maycol Social Media App</h1>" +
-                   $"<p>Your username is {userVm.UserName}</p> \n" +
-                   $"Link de activacion: " +
-                   $"https://localhost:9999/User/ActivateUser?key={userVm.ActiveKey}"
+        public async Task<string> ConfirmEmailAsync(string userdId, string token)
+        {
+            return await _accountService.ConfirmAccountAsync(userdId, token);
+        }
 
-            });
-            return userVm;
+        public async Task<ForgotPasswordResponse> ForgotPasswordAsync(ForgotPasswordViewModel model, string origin)
+        {
+            ForgotPasswordRequest forgotRequest = _mapper.Map<ForgotPasswordRequest>(model);
+            return await _accountService.ForgotPasswordAsync(forgotRequest, origin);
+        }
+
+        public async Task<ResetPasswordResponse> ResetPasswordAsync(ResetPasswordViewModel model)
+        {
+            ResetPasswordRequest forgotRequest = _mapper.Map<ResetPasswordRequest>(model);
+            return await _accountService.ResetPasswordAsync(forgotRequest);
+        }
+
+        public async Task<RegisterUserViewModel> GetByUsername(string username)
+        {
+            var request = await _accountService.GetByUsername(username);
+            var user = _mapper.Map<RegisterUserViewModel>(request);
+            return user;
         }
 
         //Metodo subir archivos.
-        public string UplpadFile(IFormFile file, int id, bool isEditMode = false, string imagePath = "")
+        public string UplpadFile(IFormFile file, string userName)
         {
-            if (isEditMode)
-            {
-                if (file == null)
-                {
-                    return imagePath;
-                }
-            }
-            string basePath = $"/Images/Users/{id}";
+
+            string basePath = $"/Images/Users/{userName}";
             string path = Path.Combine(Directory.GetCurrentDirectory(), $"wwwroot{basePath}");
 
             //create folder if not exist
@@ -86,19 +84,9 @@ namespace SocialNewtwork.Core.Application.Services
             {
                 file.CopyTo(stream);
             }
-
-            if (isEditMode)
-            {
-                string[] oldImagePart = imagePath.Split("/");
-                string oldImagePath = oldImagePart[^1];
-                string completeImageOldPath = Path.Combine(path, oldImagePath);
-
-                if (File.Exists(completeImageOldPath))
-                {
-                    File.Delete(completeImageOldPath);
-                }
-            }
             return $"{basePath}/{fileName}";
         }
+
+        
     }
 }

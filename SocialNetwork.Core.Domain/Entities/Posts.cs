@@ -2,14 +2,13 @@
 
 namespace SocialNetwork.Core.Domain.Entities
 {
-    public class Posts: AuditableEntityWithId
+    public class Posts: AuditableBaseEntity
     {
         public string Image { get; set; } = null!;
         public string Content { get; set; } = null!;
-
+        public DateTime DateOfCreated { get; set; }
         //Navegation Properties
-        public Users User { get; set; } = null!;
-        public int IdUser {  get; set; }
+        public string IdUser { get; set; } = null!;
         public ICollection<Comments> Comments { get; set; }
 
     }
